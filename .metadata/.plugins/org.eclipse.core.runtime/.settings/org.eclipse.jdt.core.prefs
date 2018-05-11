@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
+org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8
+org.eclipse.jdt.core.compiler.compliance=1.8
+org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
+org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
+org.eclipse.jdt.core.compiler.source=1.8
+org.eclipse.jdt.core.userLibrary.JacORB=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<userlibrary systemlibrary\="false" version\="2">\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/antlr-2.7.2.jar"/>\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/idl.jar"/>\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/jacorb-3.8.jar"/>\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/jacorb-omgapi-3.8.jar"/>\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/jacorb-services-3.8.jar"/>\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/picocontainer-1.2.jar"/>\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/slf4j-api-1.7.14.jar"/>\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/slf4j-jdk14-1.7.14.jar"/>\r\n\t<archive path\="D\:/Downloads/distruibuidos/jacorb-3.8-binary/jacorb-3.8/lib/wrapper-3.1.0.jar"/>\r\n</userlibrary>\r\n
