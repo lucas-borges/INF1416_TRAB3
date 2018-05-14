@@ -256,12 +256,12 @@ public class UserModel {
 
     public void resetPrivateKeyError() {
         this.private_key_errors = 0;
-        UserDAO.setPrivateKeyError(this, password_errors);
+        UserDAO.setPrivateKeyError(this, private_key_errors);
     }
 
     public int increasePrivateKeyError() {
         this.private_key_errors += 1;
-        UserDAO.setPrivateKeyError(this, password_errors);
+        UserDAO.setPrivateKeyError(this, private_key_errors);
         return this.private_key_errors;
     }
 
@@ -269,7 +269,7 @@ public class UserModel {
         this.blocked_until = new Date(System.currentTimeMillis()+2*60*1000);
         UserDAO.setBlockedUntil(this, blocked_until);
         this.private_key_errors = 0;
-        UserDAO.setPrivateKeyError(this, password_errors);
+        UserDAO.setPrivateKeyError(this, private_key_errors);
     }
 
     public int increaseAccessCount() {

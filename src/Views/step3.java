@@ -24,7 +24,8 @@ public class step3 extends javax.swing.JPanel {
         this.user = user;
         EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_INICIADA, user.getUsername());
         initComponents();
-                errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
+        errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
+        pathField.setText("Keys/admin-pkcs8-pem-des.key");
     }
 
     /**
@@ -42,6 +43,7 @@ public class step3 extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         errorLabel = new javax.swing.JLabel();
         passphraseField = new javax.swing.JTextField();
+        errorDescLabel = new javax.swing.JLabel();
 
         pathField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,6 +64,8 @@ public class step3 extends javax.swing.JPanel {
 
         errorLabel.setText("errors");
 
+        errorDescLabel.setForeground(new java.awt.Color(200, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,6 +77,7 @@ public class step3 extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(errorDescLabel)
                     .addComponent(errorLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,9 +100,11 @@ public class step3 extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(passphraseField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addComponent(errorLabel)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorDescLabel)
+                .addGap(8, 8, 8)
                 .addComponent(jButton1)
                 .addGap(39, 39, 39))
         );
@@ -120,17 +127,20 @@ public class step3 extends javax.swing.JPanel {
             switch (verifyResult) {
                 case -1:
                     EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_CAMINHO_INVALIDO, user.getUsername());
+                    errorDescLabel.setText("Caminho invalido");
                     break;
                 case -2:
                     EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_FRASE_SECRETA_INV, user.getUsername());
+                    errorDescLabel.setText("Frase secreta invalida");
                     break;
                 case -3:
                     EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
+                    errorDescLabel.setText("Chave privada invalida");
                     break;
             }
             int errors = LoginController.processIncorrectPrivateKey();
             
-            errorLabel.setText("Erros: "+ user.getPassword_errors());
+            errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
             passphraseField.setText("");
             if (errors == 3){
                 EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
@@ -143,6 +153,7 @@ public class step3 extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errorDescLabel;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

@@ -16,6 +16,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -63,14 +65,25 @@ public class LoginView {
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
         new MyPrivateKey("Keys/admin-pkcs8-pem-des.key", "admin");
         
-        
         EventsController.insertNewEvent(EventsModel.SISTEMA_INICIADO);
         frame = new JFrame("INF1416_TRABALHO_3");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                exitProcedure();
+            }
+        });
         panel1 = new JPanel();
         frame.add(panel1, BorderLayout.CENTER);
         setStepOne(panel1);
         frame.setVisible(true);
+    }
+    
+    private static void exitProcedure() {
+        EventsController.insertNewEvent(EventsModel.SISTEMA_ENCERRADO);
+        frame.dispose();
+        System.exit(0);
     }
 
     private static void setStepOne(JPanel panel) {
@@ -84,6 +97,7 @@ public class LoginView {
         username_label.setFont(new java.awt.Font("Arial", 0, 14));
         panel.add(username_label);
         username = new JTextField(20);
+        username.setText("admin@inf1416.puc-rio.br");
         username.setBounds(150, 90, 160, 25);
         username.setFont(new java.awt.Font("Arial", 0, 14));
         panel.add(username);
