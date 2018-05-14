@@ -23,9 +23,18 @@ public class Password {
     public String getCalculated_hash_HEX() {
         return calculated_hash_HEX;
     }
+    
+    public String getPassword(){
+        return calculated_hash_HEX;
+    }
             
-    public Password(String key, String salt) throws NoSuchAlgorithmException{
-        MessageDigest md = MessageDigest.getInstance("SHA1");
+    public Password(String key, String salt){
+        MessageDigest md = null;
+        try{
+            md = MessageDigest.getInstance("SHA1");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String combined = key+salt;
         byte[] input = combined.getBytes();
         md.update(input);

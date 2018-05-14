@@ -41,11 +41,13 @@ public class LoginView {
 
     public static JPanel panel1;
     public static JPanel panel2;
+    public static JPanel panel3;
     public static JTextField username;
     public static JTextField password;
     public static JLabel welcome;
     public static JFrame frame;
     public static JLabel username_label;
+    public static JLabel password_errors_label;
     public static JButton clear;
     public static JButton next;
     public static JButton[] btOp;
@@ -58,7 +60,6 @@ public class LoginView {
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
         EventsController.insertNewEvent(EventsModel.SISTEMA_INICIADO);
         frame = new JFrame("INF1416_TRABALHO_3");
-        frame.setSize(400, 250);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel1 = new JPanel();
         frame.add(panel1, BorderLayout.CENTER);
@@ -89,6 +90,8 @@ public class LoginView {
             }
         });
         panel.add(clear);
+        frame.setSize(400, 250);
+        frame.validate();
     }
 
     private static void nextMouseClicked(ActionEvent e) {
@@ -133,7 +136,7 @@ public class LoginView {
     }
 
     private static void setStepTwo(JPanel panel) {
-        EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_INICIADA);
+        EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_INICIADA, user.getUsername());
         panel.setLayout(null);
         welcome = new JLabel("Bem Vindo(a)!");
         welcome.setBounds(60, 40, 200, 25);
@@ -199,6 +202,10 @@ public class LoginView {
             }
         });
         panel.add(clear);
+        password_errors_label = new JLabel("Erros: "+ user.getPassword_errors());
+        password_errors_label.setBounds(60, 190, 80, 25);
+        password_errors_label.setFont(new java.awt.Font("Arial", 0, 14));
+        panel.add(password_errors_label);
         frame.setSize(800, 280);
         frame.validate();
     }
@@ -270,9 +277,49 @@ public class LoginView {
     
     private static void StepTwoVerification(){
         if(LoginController.checkPassword(typed_password)){
-            EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_ENCERRADA);
-            frame.setVisible(false);
-            MainMenuView.start(user);
+            LoginController.processCorrectPassword();
+            EventsController.insertNewEvent(EventsModel.SENHA_OK, user.getUsername());
+            EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_ENCERRADA, user.getUsername());
+            
+            frame.remove(panel2);
+            panel3 = new JPanel();
+            frame.add(panel3, BorderLayout.CENTER);
+            setStepThree(panel3);
+            
+//            frame.setVisible(false);
+//            MainMenuView.start(user);
         }
+        else{
+            int errors = LoginController.processIncorrectPassword();
+            switch (errors){
+                case 1:
+                    EventsController.insertNewEvent(EventsModel.PRIMEIRO_ERRO_SENHA, user.getUsername());
+                    password_errors_label.setText("Erros: "+ user.getPassword_errors());
+                    password.setText("");
+                    typed_password.clear();
+                    break;
+                case 2:
+                    EventsController.insertNewEvent(EventsModel.SEGUNDO_ERRO_SENHA, user.getUsername());
+                    password_errors_label.setText("Erros: "+ user.getPassword_errors());
+                    password.setText("");
+                    typed_password.clear();
+                    break;
+                case 3:
+                    EventsController.insertNewEvent(EventsModel.TERCEIRO_ERRO_SENHA, user.getUsername());
+                    EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
+                    LoginController.blockUserStepTwo();
+                    EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_ENCERRADA, user.getUsername());
+                    user = null;
+                    frame.remove(panel2);
+                    panel1 = new JPanel();
+                    frame.add(panel1, BorderLayout.CENTER);
+                    setStepOne(panel1);
+                    break;
+            }
+        }
+    }
+
+    private static void setStepThree(JPanel panel3) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

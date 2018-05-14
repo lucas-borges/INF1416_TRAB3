@@ -26,12 +26,35 @@ public class LoginController {
     }
 
     public static boolean checkPassword(List<String> typed_password) {
-        for (String c : typed_password) {
-            System.out.println(c);
-            String array[] = new String[3];
-            array = c.split(" - ");
+        String[][] phonemes = new String [3][3];
+        for (int i=0;i<3;i++) {
+            phonemes[i] = typed_password.get(i).split(" - ");
         }
-        
+        String possible_password;
+        boolean correct_password = false;
+        for (int i=0;i<3;i++) {
+            for (int j=0;j<3;j++) {
+                for (int k=0;k<3;k++) {
+                    possible_password = phonemes[0][i]+phonemes[1][j]+phonemes[2][k];
+                    correct_password = user.checkPassword(possible_password);
+                    if(correct_password){
+                        return true;
+                    }
+                }
+            }
+        }        
         return false;
+    }
+
+    public static void processCorrectPassword() {
+        user.resetPasswordError();
+    }
+    
+    public static int processIncorrectPassword() {
+        return user.increasePasswordError();
+    }
+
+    public static void blockUserStepTwo() {
+       user.blockStepTwo();
     }
 }

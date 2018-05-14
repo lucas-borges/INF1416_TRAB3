@@ -5,6 +5,7 @@
  */
 package Model;
 
+import DAO.UserDAO;
 import java.util.Date;
 
 /**
@@ -12,7 +13,6 @@ import java.util.Date;
  * @author Joyce
  */
 public class UserModel {
-
     /**
      * @return the user_id
      */
@@ -34,10 +34,15 @@ public class UserModel {
     private int id_group;
     private String digital_certificate;
     private Date blocked_until;
+    private int password_errors;
     private int number_of_access;
     private int number_of_searches_key;
     private int number_of_searches_files;
 
+    public int getPassword_errors() {
+        return password_errors;
+    }
+    
     /**
      * @return the username
      */
@@ -198,6 +203,13 @@ public class UserModel {
         this.number_of_searches_files = number_of_searches_files;
     }
     
+    public boolean checkPassword(String possible_password) {
+        Password pass = new Password(possible_password, salt);
+        if(pass.getPassword().equals(this.password))
+            return true;
+        return false;
+    }
+
 
     public UserModel(String username, String password, String login, String salt, int id_group, String digital_certificate, Date blocked_until, int number_of_searches_key, int number_of_searches_files, int number_of_access) {
         super();
@@ -213,12 +225,32 @@ public class UserModel {
         this.number_of_searches_key = number_of_searches_key;
     }
     
-    public UserModel(String username, String password, Date blocked_until, int number_of_access) {
+    public UserModel(String username, String password, String salt, int password_errors, Date blocked_until, int number_of_access) {
         super();
         this.password = password;
         this.username = username;
+        this.password_errors = password_errors;
+        this.salt = salt;
         System.out.println(">>>>>> BlockedUntil: " + blocked_until);
         this.blocked_until = blocked_until;
         this.number_of_access = number_of_access;
+    }
+    
+    public void resetPasswordError(){
+        this.password_errors = 0;
+        UserDAO.setPasswordError(this, password_errors);
+    }
+
+    public int increasePasswordError() {
+        this.password_errors += 1;
+        UserDAO.setPasswordError(this, password_errors);
+        return this.password_errors;
+    }
+
+    public void blockStepTwo() {
+        this.blocked_until = new Date(System.currentTimeMillis()+2*60*1000);
+        UserDAO.setBlockedUntil(this, blocked_until);
+        this.password_errors = 0;
+        UserDAO.setPasswordError(this, password_errors);
     }
 }

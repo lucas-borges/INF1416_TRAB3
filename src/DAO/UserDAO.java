@@ -7,6 +7,8 @@ package DAO;
 
 import Model.UserModel;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -21,7 +23,8 @@ public class UserDAO {
         try {
             ResultSet rs = Factory.connection.createStatement().executeQuery(query);
             if (rs.next()) {
-                result = new UserModel(rs.getString("email"), rs.getString("password"), rs.getTimestamp("blocked_until"), rs.getInt("access_number"));
+                result = new UserModel(rs.getString("email"), rs.getString("password"), rs.getString("salt"), 
+                        rs.getInt("password_errors"), rs.getTimestamp("blocked_until"), rs.getInt("access_number"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,17 +36,27 @@ public class UserDAO {
         return result;
     }
 
-    public static void setUserAvailable(UserModel user) {
+    public static void setPasswordError(UserModel user, int password_errors) {
+        String query = "UPDATE users SET password_errors = " + password_errors + " WHERE email = '" + user.getUsername() + "' ;";
+        ExecuteQuery(query);
+    }
+    
+    private static void ExecuteQuery(String query){
         Factory.openConnection();
-        String query = "UPDATE user SET blocked = '" + 0 + "', cont_login_error = '" + 0 + "',"
-                + " blocked_since = '' WHERE username = '" + user.getUsername() + "' ;";
+        System.out.println(">>>> " + query);
         try {
-            Factory.statement.executeUpdate(query);
+            Factory.connection.createStatement().executeUpdate(query);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            Factory.closeConnection();
         }
+        finally{
+            Factory.closeConnection();            
+        }
+    }
 
+    public static void setBlockedUntil(UserModel user, Date blocked_until) {
+        Timestamp timestamp = new Timestamp(blocked_until.getTime());
+        String query = "UPDATE users SET blocked_until = '" + timestamp + "' WHERE email = '" + user.getUsername() + "' ;";
+        ExecuteQuery(query);
     }
 }
