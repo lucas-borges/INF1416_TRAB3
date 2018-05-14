@@ -12,15 +12,24 @@ import Model.EventsModel;
  * @author Joyce - MeConsulte
  */
 public class EventsDAO {
-    public static void insertEvent(int event_id, int user_id){
+        public static void insertEvent(int event_id){
+        String query  = "INSERT INTO registers (message_id) VALUES("+event_id+");";
+        ExecuteQuery(query);
+    }
+    
+    public static void insertEvent(int event_id, String login_name){
+        String query  = "INSERT INTO registers (user, message_id) VALUES('"+login_name+"', "+event_id+");";
+        ExecuteQuery(query);
+    }
+    
+    public static void insertEvent(int event_id, String login_name, String file_name){
+        String query  = "INSERT INTO registers (user, message_id, file) VALUES('"+login_name+"', "+event_id+", '"+file_name+"');";
+        ExecuteQuery(query);
+    }
+    
+    private static void ExecuteQuery(String query){
         Factory.openConnection();
-        String query;
-        if (user_id == -1){
-            query = "INSERT INTO registers (message_id) VALUES("+event_id+");";
-        } else {
-            query = "INSERT INTO registers (user, message_id) VALUES("+user_id+", "+event_id+");";
-        }
-        EventsModel event;
+        System.out.println(">>>> " + query);
         try {
             Factory.connection.createStatement().executeUpdate(query);
         } catch (Exception e) {

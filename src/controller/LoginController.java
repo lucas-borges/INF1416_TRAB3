@@ -7,6 +7,7 @@ package controller;
 
 import DAO.UserDAO;
 import Model.UserModel;
+import java.util.List;
 
 /**
  *
@@ -20,10 +21,17 @@ public class LoginController {
         if(user!=null){
             System.out.println("Usuário encontrado.");
         }
-        else{
-            return null;
-        }
         
         return user;
+    }
+
+    public static boolean checkPassword(List<String> typed_password) {
+        for (String c : typed_password) {
+            System.out.println(c);
+            String array[] = new String[3];
+            array = c.split(" - ");
+        }
+        
+        return false;
     }
 }

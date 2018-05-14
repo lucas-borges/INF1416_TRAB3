@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author Joyce
@@ -31,8 +33,7 @@ public class UserModel {
     private String salt;
     private int id_group;
     private String digital_certificate;
-    private int blocked;
-    private String blocked_since;
+    private Date blocked_until;
     private int number_of_access;
     private int number_of_searches_key;
     private int number_of_searches_files;
@@ -124,30 +125,36 @@ public class UserModel {
     /**
      * @return the blocked
      */
-    public int isBlocked() {
-        return blocked;
+    public boolean isBlocked() {
+        if(blocked_until == null) {
+            return false;
+        }
+        if(blocked_until.after(new Date())){
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * @param blocked the blocked to set
-     */
-    public void setBlocked(int blocked) {
-        this.blocked = blocked;
-    }
+//    /**
+//     * @param blocked the blocked to set
+//     */
+//    public void setBlocked(int blocked) {
+//        this.blocked = blocked;
+//    }
 
     /**
      * @return the blocked_since
      */
-    public String getBlocked_since() {
-        return blocked_since;
+    public Date getBlocked_until() {
+        return blocked_until;
     }
 
-    /**
-     * @param blocked_since the blocked_since to set
-     */
-    public void setBlocked_since(String blocked_since) {
-        this.blocked_since = blocked_since;
-    }
+//    /**
+//     * @param blocked_since the blocked_since to set
+//     */
+//    public void setBlocked_since(String blocked_since) {
+//        this.blocked_since = blocked_since;
+//    }
 
     /**
      * @return the number_of_access
@@ -192,7 +199,7 @@ public class UserModel {
     }
     
 
-    public UserModel(String username, String password, String login, String salt, int id_group, String digital_certificate, int blocked, String blocked_since, int number_of_searches_key, int number_of_searches_files, int number_of_access) {
+    public UserModel(String username, String password, String login, String salt, int id_group, String digital_certificate, Date blocked_until, int number_of_searches_key, int number_of_searches_files, int number_of_access) {
         super();
         this.login = login;
         this.username = username;
@@ -200,18 +207,18 @@ public class UserModel {
         this.salt = salt;
         this.id_group = id_group;
         this.digital_certificate = digital_certificate;
-        this.blocked = blocked;
-        this.blocked_since = blocked_since;
+        this.blocked_until = blocked_until;
         this.number_of_access = number_of_access;
         this.number_of_searches_files = number_of_searches_files;
         this.number_of_searches_key = number_of_searches_key;
     }
     
-    public UserModel(String username, String password, int blocked, int number_of_access) {
+    public UserModel(String username, String password, Date blocked_until, int number_of_access) {
         super();
         this.password = password;
         this.username = username;
-        this.blocked = blocked;
+        System.out.println(">>>>>> BlockedUntil: " + blocked_until);
+        this.blocked_until = blocked_until;
         this.number_of_access = number_of_access;
     }
 }

@@ -16,12 +16,12 @@ public class UserDAO {
     
     public static UserModel getUserByUsername(String username) {
         Factory.openConnection();
-        String query = "SELECT * FROM user WHERE username = '" + username + "';";
+        String query = "SELECT * FROM users WHERE email = '" + username + "';";
         UserModel result = null;
         try {
             ResultSet rs = Factory.connection.createStatement().executeQuery(query);
             if (rs.next()) {
-                result = new UserModel(rs.getString("username"), rs.getString("password"), rs.getInt("blocked"), rs.getInt("number_of_access"));
+                result = new UserModel(rs.getString("email"), rs.getString("password"), rs.getTimestamp("blocked_until"), rs.getInt("access_number"));
             }
         } catch (Exception e) {
             e.printStackTrace();

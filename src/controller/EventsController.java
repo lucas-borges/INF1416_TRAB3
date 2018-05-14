@@ -12,7 +12,15 @@ import DAO.EventsDAO;
  * @author Joyce - MeConsulte
  */
 public class EventsController {
-    public static void insertNewEvent(int event_id, int user_id){
-        EventsDAO.insertEvent(event_id, user_id);
+        public static void insertNewEvent(int event_id){
+        EventsDAO.insertEvent(event_id);
+    }
+    
+    public static void insertNewEvent(int event_id, String login_name){
+        EventsDAO.insertEvent(event_id, login_name);
+    }
+    
+    public static void insertNewEvent(int event_id, String login_name, String file_name){
+        EventsDAO.insertEvent(event_id, login_name, file_name);
     }
 }

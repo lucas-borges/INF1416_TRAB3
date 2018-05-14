@@ -26,13 +26,13 @@ public class Factory {
             e.printStackTrace();
             return null;
         }
-        System.out.println("MySQL JDBC Driver Registered!");
+        //System.out.println("MySQL JDBC Driver Registered!");
         Connection connection = null;
 
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/inf1416?useSSL=false", "root", "root");
             if (connection != null) {
-                System.out.println("You made it, take control your database now!");
+                //System.out.println("You made it, take control your database now!");
             } else {
                 System.out.println("Failed to make connection!");
             }
