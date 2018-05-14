@@ -37,6 +37,53 @@ public class UserDAO {
 
         return result;
     }
+    
+    public static void addUser(UserModel user) {
+        String query = "insert into USERS values('"+user.getUsername()+"', '"+
+                user.getPassword()+"', '"+user.getSalt()+"', "+user.getId_group()+
+                ", '"+user.getName()+"', '"+ user.getDigital_certificate().getEncoded()+
+                "', 0, 0, 0, null);";
+        ExecuteQuery(query);
+    }
+    
+    public static int getUserCount(){
+        Factory.openConnection();
+        String query = "SELECT COUNT(*) FROM USERS;";
+        int result = 0;
+        try {
+            ResultSet rs = Factory.connection.createStatement().executeQuery(query);
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            Factory.closeConnection();            
+        }
+
+        return result;
+    }
+    
+    public static boolean emailIsRegistered(String email){
+        Factory.openConnection();
+        String query = "SELECT COUNT(*) FROM USERS WHERE email = '" + email + "';";
+
+        int result = 0;
+        try {
+            ResultSet rs = Factory.connection.createStatement().executeQuery(query);
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            Factory.closeConnection();            
+        }
+
+        return result==1?true:false;
+    }
 
     public static void setPasswordError(UserModel user, int password_errors) {
         String query = "UPDATE USERS SET password_errors = " + password_errors + " WHERE email = '" + user.getUsername() + "' ;";

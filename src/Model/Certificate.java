@@ -6,14 +6,21 @@
 package Model;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import static java.lang.System.out;
+import java.math.BigInteger;
 import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Date;
+import sun.misc.BASE64Encoder;
+import sun.security.provider.X509Factory;
 
 /**
  *
@@ -24,7 +31,7 @@ public class Certificate {
     public Certificate(String path) throws FileNotFoundException, CertificateException, IOException{
         InputStream inStream = null;
         try {
-            inStream = new FileInputStream("Keys/admin-x509.crt");
+            inStream = new FileInputStream(path);
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             certificate = (X509Certificate)cf.generateCertificate(inStream);
 //            System.out.println(certificate.getSubjectX500Principal().toString());
@@ -49,5 +56,75 @@ public class Certificate {
     
     public PublicKey getPublicKey(){
         return certificate.getPublicKey();
+    }
+    
+    public int getVersion(){
+        return certificate.getVersion();
+    }
+    
+    public BigInteger getSerialNumber(){
+        return certificate.getSerialNumber();
+    }
+    
+    public Date getValidFrom(){
+       return certificate.getNotBefore();
+    }
+    
+    public Date getValidTo(){
+       return certificate.getNotAfter();
+    }
+    
+    public String getSignAlgName(){
+        return certificate.getSigAlgName();
+    }
+    
+    public String getIssuer(){
+        String issuer = certificate.getIssuerDN().getName();
+        String[] split = issuer.split(","); 
+        for (String x : split) {
+            if (x.contains("CN=")) {
+                return x.substring(x.indexOf('=')+1).trim();
+            }
+        }
+        return "emissor nao encontrado";
+    }
+    
+    public String getSubject(){
+        String subject = certificate.getSubjectDN().getName();
+        String[] split = subject.split(","); 
+        for (String x : split) {
+            if (x.contains("CN=")) {
+                return x.substring(x.indexOf('=')+1).trim();
+            }
+        }
+        return "sujeito nao encontrado";
+    }
+        
+    public String getEmail() {
+        String subject = certificate.getSubjectDN().getName();
+        String[] split = subject.split(","); 
+        for (String x : split) {
+            if (x.contains("EMAILADDRESS=")) {
+                return x.substring(x.indexOf('=')+1).trim();
+            }
+        }
+        return "email nao encontrado";
+    }
+    
+    public String getEncoded(){
+        String encoded = "";
+        try {
+            OutputStream os = new ByteArrayOutputStream();
+            BASE64Encoder encoder = new BASE64Encoder();
+            os.write(X509Factory.BEGIN_CERT.getBytes());
+            os.write("\n".getBytes());
+            encoder.encodeBuffer(certificate.getEncoded(), os);
+            os.write(X509Factory.END_CERT.getBytes());
+            encoded = os.toString();
+            os.close();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return encoded;
     }
 }

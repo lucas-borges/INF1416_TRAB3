@@ -50,6 +50,10 @@ public class UserModel {
         return password_errors;
     }
     
+    public String getName() {
+        return name;
+    }
+    
     /**
      * @return the username
      */

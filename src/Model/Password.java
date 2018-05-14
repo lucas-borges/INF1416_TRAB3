@@ -57,7 +57,7 @@ public class Password {
         return builder.toString();
     }
     
-    private static String ByteToString(byte[] info) {
+    public static String ByteToString(byte[] info) {
         // convert to hexadecimal
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < info.length; i++) {

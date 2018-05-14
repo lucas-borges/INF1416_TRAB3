@@ -6,6 +6,7 @@
 package Views;
 
 import DAO.UserDAO;
+import Model.Certificate;
 import Model.EventsModel;
 import Model.UserModel;
 import Model.Password;
@@ -22,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.System.out;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -36,6 +38,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import sun.misc.BASE64Encoder;
+import sun.security.provider.X509Factory;
 
 /**
  *
@@ -63,7 +67,10 @@ public class LoginView {
     
     //  ADMIN: admin@inf1416.puc-rio.br / BACADA
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
-        new MyPrivateKey("Keys/admin-pkcs8-pem-des.key", "admin");
+        Certificate asd = new Certificate("Keys/admin-x509.crt");
+        System.out.println(asd.getEncoded());
+        
+        
         
         EventsController.insertNewEvent(EventsModel.SISTEMA_INICIADO);
         frame = new JFrame("INF1416_TRABALHO_3");
@@ -319,13 +326,7 @@ public class LoginView {
             EventsController.insertNewEvent(EventsModel.SENHA_OK, user.getUsername());
             EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_ENCERRADA, user.getUsername());
             
-            frame.remove(panel2);
-            panel3 = new JPanel();
-            frame.add(panel3, BorderLayout.CENTER);
-            setStepThree(panel3);
-            
-//            frame.setVisible(false);
-//            MainMenuView.start(user);
+            setStepThree();
         }
         else{
             int errors = LoginController.processIncorrectPassword();
@@ -357,8 +358,8 @@ public class LoginView {
         }
     }
 
-    private static void setStepThree(JPanel panel3) {
-        frame.remove(panel3);
+    private static void setStepThree() {
+        frame.remove(panel2);
         panel3 = new step3(user);
         frame.add(panel3, BorderLayout.CENTER);
         frame.setSize(400, 250);
