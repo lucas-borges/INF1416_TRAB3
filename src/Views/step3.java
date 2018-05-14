@@ -5,17 +5,25 @@
  */
 package Views;
 
+import Model.EventsModel;
+import Model.UserModel;
+import controller.EventsController;
+import controller.LoginController;
+
 /**
  *
  * @author joy
  */
 public class step3 extends javax.swing.JPanel {
 
+    private UserModel user;
     /**
      * Creates new form step3
      */
-    public step3() {
-        System.out.println("step3");
+    public step3(UserModel user) {
+        this.user = user;
+        EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_INICIADA, user.getUsername());
+        errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
         initComponents();
     }
 
@@ -28,22 +36,16 @@ public class step3 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        pathField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        errorLabel = new javax.swing.JLabel();
+        passphraseField = new javax.swing.JTextField();
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        pathField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                pathFieldActionPerformed(evt);
             }
         });
 
@@ -58,7 +60,7 @@ public class step3 extends javax.swing.JPanel {
 
         jLabel2.setText("Chave Secreta");
 
-        jLabel3.setText("errors");
+        errorLabel.setText("errors");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -71,15 +73,15 @@ public class step3 extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
+                    .addComponent(errorLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addComponent(jTextField1))))
+                            .addComponent(pathField, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                            .addComponent(passphraseField))))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -87,39 +89,70 @@ public class step3 extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pathField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(passphraseField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addComponent(errorLabel)
                 .addGap(28, 28, 28)
                 .addComponent(jButton1)
                 .addGap(39, 39, 39))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void pathFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pathFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_pathFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        
+        if(LoginController.verifyPrivateKey(pathField.getText(), passphraseField.getText())){
+            LoginController.processCorrectPrivateKey();
+            EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_OK, user.getUsername());
+            EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
+           
+            
+//            frame.setVisible(false);
+//            MainMenuView.start(user);
+        }
+        else{
+            int errors = LoginController.processIncorrectPassword();
+            switch (errors){
+                case 1:
+                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
+                    errorLabel.setText("Erros: "+ user.getPassword_errors());
+                    passphraseField.setText("");
+                    break;
+                case 2:
+                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
+                    errorLabel.setText("Erros: "+ user.getPassword_errors());
+                    passphraseField.setText("");
+                    break;
+                case 3:
+                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
+                    EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
+                    LoginController.blockUserStepThree();
+                    EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
+                    user = null;
+                    frame.remove(panel2);
+                    panel1 = new JPanel();
+                    frame.add(panel1, BorderLayout.CENTER);
+                    setStepOne(panel1);
+                    break;
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField passphraseField;
+    private javax.swing.JTextField pathField;
     // End of variables declaration//GEN-END:variables
 }

@@ -354,7 +354,7 @@ public class LoginView {
 //        password.setFont(new java.awt.Font("Arial", 0, 14));
 //        
         frame.remove(panel3);
-        panel3 = new step3();
+        panel3 = new step3(user);
         frame.add(panel3, BorderLayout.CENTER);
         frame.setSize(400, 250);
         frame.validate();
