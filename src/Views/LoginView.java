@@ -5,6 +5,7 @@
  */
 package Views;
 
+import DAO.UserDAO;
 import Model.EventsModel;
 import Model.UserModel;
 import Model.Password;
@@ -48,6 +49,7 @@ public class LoginView {
     public static JLabel welcome;
     public static JFrame frame;
     public static JLabel username_label;
+    public static JLabel path_label;
     public static JLabel password_errors_label;
     public static JButton clear;
     public static JButton next;
@@ -101,6 +103,7 @@ public class LoginView {
     private static void nextMouseClicked(ActionEvent e) {
         EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_UM_INICIADA);
         user = LoginController.findUser(username.getText());
+//        new MainMenuView();
         if (user == null) {
             EventsController.insertNewEvent(EventsModel.LOGIN_NAO_IDENTIFICADO, user.getUsername());
             alertInvalidUsername();
@@ -108,7 +111,16 @@ public class LoginView {
             if (user.isBlocked()) {
                 EventsController.insertNewEvent(EventsModel.LOGIN_ACESSO_BLOQUEADO, user.getUsername());
                 alertBlockedUser();
-            } else {
+//				if(!verifyBlockTime(user.getBlocked_until())){
+//					setLogFoundLoginname(user.getLogin());
+//					UserDAO.setUserAvailable(user.getLogin());
+//					userStatus =  UserStatus.FOUND;
+//				} else{
+//					setLogFoundBlockLoginname(user.getLoginname());
+//					userStatus =  UserStatus.BLOCKED;
+//				}
+			}
+            else {
                 EventsController.insertNewEvent(EventsModel.LOGIN_ACESSO_LIBERADO, user.getUsername());
                 EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_UM_ENCERRADA);
                 frame.remove(panel1);
@@ -324,6 +336,30 @@ public class LoginView {
     }
 
     private static void setStepThree(JPanel panel3) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("step3");
+//        panel3.setLayout(null);
+//        path_label = new JLabel("Caminho do arquivo");
+//        path_label.setBounds(60, 90, 150, 25);
+//        path_label.setFont(new java.awt.Font("Arial", 0, 14));
+//        panel3.add(path_label);
+//        
+//        path_input = new JTextField();
+//        path_input.setEditable(false);
+//        path_input.setFont(new java.awt.Font("Arial", 0, 14));
+//        panel3.add(path_label);
+//        
+//        password = new JTextField(20);
+//        password.setEditable(false);
+//        password.setBounds(110, 150, 160, 25);
+//        password.setFont(new java.awt.Font("Arial", 0, 14));
+//        
+        frame.remove(panel3);
+        panel3 = new step3();
+        frame.add(panel3, BorderLayout.CENTER);
+        frame.setSize(400, 250);
+        frame.validate();
+        
+//        new step3();
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
