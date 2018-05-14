@@ -23,8 +23,8 @@ public class step3 extends javax.swing.JPanel {
     public step3(UserModel user) {
         this.user = user;
         EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_INICIADA, user.getUsername());
-        errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
         initComponents();
+        errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
     }
 
     /**
