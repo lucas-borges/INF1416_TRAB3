@@ -13,17 +13,17 @@ import Model.EventsModel;
  */
 public class EventsDAO {
         public static void insertEvent(int event_id){
-        String query  = "INSERT INTO registers (message_id) VALUES("+event_id+");";
+        String query  = "INSERT INTO REGISTERS (message_id) VALUES("+event_id+");";
         ExecuteQuery(query);
     }
     
     public static void insertEvent(int event_id, String login_name){
-        String query  = "INSERT INTO registers (user, message_id) VALUES('"+login_name+"', "+event_id+");";
+        String query  = "INSERT INTO REGISTERS (user, message_id) VALUES('"+login_name+"', "+event_id+");";
         ExecuteQuery(query);
     }
     
     public static void insertEvent(int event_id, String login_name, String file_name){
-        String query  = "INSERT INTO registers (user, message_id, file) VALUES('"+login_name+"', "+event_id+", '"+file_name+"');";
+        String query  = "INSERT INTO REGISTERS (user, message_id, file) VALUES('"+login_name+"', "+event_id+", '"+file_name+"');";
         ExecuteQuery(query);
     }
     

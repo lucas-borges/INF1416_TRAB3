@@ -376,4 +376,9 @@ public class LoginView {
 //        new step3();
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public static void setMenuView(){
+        frame.setVisible(false);
+        MainMenuView.start(user);
+    }
 }

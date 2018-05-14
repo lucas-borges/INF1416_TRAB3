@@ -19,7 +19,7 @@ public class UserDAO {
     
     public static UserModel getUserByUsername(String username) {
         Factory.openConnection();
-        String query = "SELECT * FROM users WHERE email = '" + username + "';";
+        String query = "SELECT * FROM USERS WHERE email = '" + username + "';";
         UserModel result = null;
         try {
             ResultSet rs = Factory.connection.createStatement().executeQuery(query);
@@ -39,7 +39,7 @@ public class UserDAO {
     }
 
     public static void setPasswordError(UserModel user, int password_errors) {
-        String query = "UPDATE users SET password_errors = " + password_errors + " WHERE email = '" + user.getUsername() + "' ;";
+        String query = "UPDATE USERS SET password_errors = " + password_errors + " WHERE email = '" + user.getUsername() + "' ;";
         ExecuteQuery(query);
     }
     
@@ -58,17 +58,17 @@ public class UserDAO {
 
     public static void setBlockedUntil(UserModel user, Date blocked_until) {
         Timestamp timestamp = new Timestamp(blocked_until.getTime());
-        String query = "UPDATE users SET blocked_until = '" + timestamp + "' WHERE email = '" + user.getUsername() + "' ;";
+        String query = "UPDATE USERS SET blocked_until = '" + timestamp + "' WHERE email = '" + user.getUsername() + "' ;";
         ExecuteQuery(query);
     }
 
     public static void setPrivateKeyError(UserModel user, int private_key_errors) {
-        String query = "UPDATE users SET privatekey_validation_errors = " + private_key_errors + " WHERE email = '" + user.getUsername() + "' ;";
+        String query = "UPDATE USERS SET privatekey_validation_errors = " + private_key_errors + " WHERE email = '" + user.getUsername() + "' ;";
         ExecuteQuery(query);
     }
 
     public static void setNumberOfAccess(UserModel user, int number_of_access) {
-        String query = "UPDATE users SET access_number = " + number_of_access + " WHERE email = '" + user.getUsername() + "' ;";
+        String query = "UPDATE USERS SET access_number = " + number_of_access + " WHERE email = '" + user.getUsername() + "' ;";
         ExecuteQuery(query);
     }
 }
