@@ -136,11 +136,7 @@ public class step3 extends javax.swing.JPanel {
                 EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
                 LoginController.blockUserStepThree();
                 EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
-//                user = null;
-//                frame.remove(panel2);
-//                panel1 = new JPanel();
-//                frame.add(panel1, BorderLayout.CENTER);
-//                setStepOne(panel1);
+                LoginView.backToStepOne();
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

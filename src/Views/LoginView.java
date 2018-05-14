@@ -265,6 +265,14 @@ public class LoginView {
         }
     }
     
+    public static void backToStepOne() {
+        user = null;
+        frame.remove(panel3);
+        panel1 = new JPanel();
+        frame.add(panel1, BorderLayout.CENTER);
+        setStepOne(panel1);
+    }
+    
     private static void updateButtons() {
         Collections.shuffle(phonemes);
         
@@ -336,31 +344,11 @@ public class LoginView {
     }
 
     private static void setStepThree(JPanel panel3) {
-        System.out.println("step3");
-//        panel3.setLayout(null);
-//        path_label = new JLabel("Caminho do arquivo");
-//        path_label.setBounds(60, 90, 150, 25);
-//        path_label.setFont(new java.awt.Font("Arial", 0, 14));
-//        panel3.add(path_label);
-//        
-//        path_input = new JTextField();
-//        path_input.setEditable(false);
-//        path_input.setFont(new java.awt.Font("Arial", 0, 14));
-//        panel3.add(path_label);
-//        
-//        password = new JTextField(20);
-//        password.setEditable(false);
-//        password.setBounds(110, 150, 160, 25);
-//        password.setFont(new java.awt.Font("Arial", 0, 14));
-//        
         frame.remove(panel3);
         panel3 = new step3(user);
         frame.add(panel3, BorderLayout.CENTER);
         frame.setSize(400, 250);
         frame.validate();
-        
-//        new step3();
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public static void setMenuView(){
