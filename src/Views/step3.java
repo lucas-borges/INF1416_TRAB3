@@ -23,8 +23,8 @@ public class step3 extends javax.swing.JPanel {
     public step3(UserModel user) {
         this.user = user;
         EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_INICIADA, user.getUsername());
-        errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
         initComponents();
+                errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
     }
 
     /**
@@ -108,15 +108,13 @@ public class step3 extends javax.swing.JPanel {
     }//GEN-LAST:event_pathFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//        LoginView.setMenuView();
         int verifyResult = LoginController.verifyPrivateKey(pathField.getText(), passphraseField.getText());
         if(verifyResult == 1){
             LoginController.processCorrectPrivateKey();
             EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_OK, user.getUsername());
             EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
-           
-            
-//            frame.setVisible(false);
-//            MainMenuView.start(user);
+            LoginView.setMenuView();
         }
         else{
             switch (verifyResult) {
