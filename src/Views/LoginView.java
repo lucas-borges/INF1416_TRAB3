@@ -8,6 +8,7 @@ package Views;
 import Model.EventsModel;
 import Model.UserModel;
 import Model.Password;
+import Model.MyPrivateKey;
 import controller.EventsController;
 import controller.LoginController;
 import java.awt.BorderLayout;
@@ -58,6 +59,9 @@ public class LoginView {
     
     //  ADMIN: admin@inf1416.puc-rio.br / BACADA
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
+        new MyPrivateKey("Keys/admin-pkcs8-pem-des.key", "admin");
+        
+        
         EventsController.insertNewEvent(EventsModel.SISTEMA_INICIADO);
         frame = new JFrame("INF1416_TRABALHO_3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

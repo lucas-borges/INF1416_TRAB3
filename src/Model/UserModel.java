@@ -6,6 +6,7 @@
 package Model;
 
 import DAO.UserDAO;
+import java.security.PublicKey;
 import java.util.Date;
 
 /**
@@ -35,9 +36,14 @@ public class UserModel {
     private String digital_certificate;
     private Date blocked_until;
     private int password_errors;
+    private int private_key_errors;
     private int number_of_access;
     private int number_of_searches_key;
     private int number_of_searches_files;
+    
+    public int getPrivate_key_errors() {
+        return private_key_errors;
+    }
 
     public int getPassword_errors() {
         return password_errors;
@@ -225,11 +231,12 @@ public class UserModel {
         this.number_of_searches_key = number_of_searches_key;
     }
     
-    public UserModel(String username, String password, String salt, int password_errors, Date blocked_until, int number_of_access) {
+    public UserModel(String username, String password, String salt, int password_errors, int private_key_errors,  Date blocked_until, int number_of_access) {
         super();
         this.password = password;
         this.username = username;
         this.password_errors = password_errors;
+        this.private_key_errors = private_key_errors;
         this.salt = salt;
         System.out.println(">>>>>> BlockedUntil: " + blocked_until);
         this.blocked_until = blocked_until;
@@ -252,5 +259,33 @@ public class UserModel {
         UserDAO.setBlockedUntil(this, blocked_until);
         this.password_errors = 0;
         UserDAO.setPasswordError(this, password_errors);
+    }
+
+    public PublicKey getPublicKey() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void resetPrivateKeyError() {
+        this.private_key_errors = 0;
+        UserDAO.setPrivateKeyError(this, password_errors);
+    }
+
+    public int increasePrivateKeyError() {
+        this.private_key_errors += 1;
+        UserDAO.setPrivateKeyError(this, password_errors);
+        return this.private_key_errors;
+    }
+
+    public void blockStepThree() {
+        this.blocked_until = new Date(System.currentTimeMillis()+2*60*1000);
+        UserDAO.setBlockedUntil(this, blocked_until);
+        this.private_key_errors = 0;
+        UserDAO.setPrivateKeyError(this, password_errors);
+    }
+
+    public int increaseAccessCount() {
+        this.number_of_access += 1;
+        UserDAO.setNumberOfAccess(this, number_of_access);
+        return this.number_of_access;
     }
 }

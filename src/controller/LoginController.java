@@ -6,7 +6,9 @@
 package controller;
 
 import DAO.UserDAO;
+import Model.MyPrivateKey;
 import Model.UserModel;
+import java.security.Signature;
 import java.util.List;
 
 /**
@@ -56,5 +58,41 @@ public class LoginController {
 
     public static void blockUserStepTwo() {
        user.blockStepTwo();
+    }
+    
+    public static boolean verifyPrivateKey(String path, String passphrase) {
+        MyPrivateKey privateKey = new MyPrivateKey(path, passphrase);
+        byte[] bytesToSign = new byte[1024];
+        byte[] signedBytes = privateKey.signRandomBytes(bytesToSign);
+        
+        boolean result = false;
+        
+        try {
+            Signature sig = Signature.getInstance("MD5withRSA");
+            sig.initVerify(user.getPublicKey());
+            sig.update(bytesToSign);
+
+            result = sig.verify(signedBytes);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+        
+    }
+    
+    public static void processCorrectPrivateKey() {
+        user.resetPrivateKeyError();
+    }
+    
+    public static int processIncorrectPrivateKey() {
+        return user.increasePrivateKeyError();
+    }
+
+    public static void blockUserStepThree() {
+       user.blockStepThree();
+    }
+    
+    public static int increaseAccessCount(){
+        return user.increaseAccessCount();
     }
 }

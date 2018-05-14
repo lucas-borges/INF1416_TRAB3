@@ -24,7 +24,7 @@ public class UserDAO {
             ResultSet rs = Factory.connection.createStatement().executeQuery(query);
             if (rs.next()) {
                 result = new UserModel(rs.getString("email"), rs.getString("password"), rs.getString("salt"), 
-                        rs.getInt("password_errors"), rs.getTimestamp("blocked_until"), rs.getInt("access_number"));
+                        rs.getInt("password_errors"), rs.getInt("privatekey_validation_errors"), rs.getTimestamp("blocked_until"), rs.getInt("access_number"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,6 +57,16 @@ public class UserDAO {
     public static void setBlockedUntil(UserModel user, Date blocked_until) {
         Timestamp timestamp = new Timestamp(blocked_until.getTime());
         String query = "UPDATE users SET blocked_until = '" + timestamp + "' WHERE email = '" + user.getUsername() + "' ;";
+        ExecuteQuery(query);
+    }
+
+    public static void setPrivateKeyError(UserModel user, int private_key_errors) {
+        String query = "UPDATE users SET privatekey_validation_errors = " + private_key_errors + " WHERE email = '" + user.getUsername() + "' ;";
+        ExecuteQuery(query);
+    }
+
+    public static void setNumberOfAccess(UserModel user, int number_of_access) {
+        String query = "UPDATE users SET access_number = " + number_of_access + " WHERE email = '" + user.getUsername() + "' ;";
         ExecuteQuery(query);
     }
 }
