@@ -108,8 +108,8 @@ public class step3 extends javax.swing.JPanel {
     }//GEN-LAST:event_pathFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        if(LoginController.verifyPrivateKey(pathField.getText(), passphraseField.getText())){
+        int verifyResult = LoginController.verifyPrivateKey(pathField.getText(), passphraseField.getText());
+        if(verifyResult == 1){
             LoginController.processCorrectPrivateKey();
             EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_OK, user.getUsername());
             EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
@@ -119,29 +119,30 @@ public class step3 extends javax.swing.JPanel {
 //            MainMenuView.start(user);
         }
         else{
-            int errors = LoginController.processIncorrectPassword();
-            switch (errors){
-                case 1:
-                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
-                    errorLabel.setText("Erros: "+ user.getPassword_errors());
-                    passphraseField.setText("");
+            switch (verifyResult) {
+                case -1:
+                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_CAMINHO_INVALIDO, user.getUsername());
                     break;
-                case 2:
-                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
-                    errorLabel.setText("Erros: "+ user.getPassword_errors());
-                    passphraseField.setText("");
+                case -2:
+                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_FRASE_SECRETA_INV, user.getUsername());
                     break;
-                case 3:
+                case -3:
                     EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
-                    EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
-                    LoginController.blockUserStepThree();
-                    EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
-                    user = null;
-                    frame.remove(panel2);
-                    panel1 = new JPanel();
-                    frame.add(panel1, BorderLayout.CENTER);
-                    setStepOne(panel1);
                     break;
+            }
+            int errors = LoginController.processIncorrectPrivateKey();
+            
+            errorLabel.setText("Erros: "+ user.getPassword_errors());
+            passphraseField.setText("");
+            if (errors == 3){
+                EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
+                LoginController.blockUserStepThree();
+                EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
+//                user = null;
+//                frame.remove(panel2);
+//                panel1 = new JPanel();
+//                frame.add(panel1, BorderLayout.CENTER);
+//                setStepOne(panel1);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

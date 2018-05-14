@@ -60,19 +60,22 @@ public class LoginController {
        user.blockStepTwo();
     }
     
-    public static boolean verifyPrivateKey(String path, String passphrase) {
+    public static int verifyPrivateKey(String path, String passphrase) {
+        int result = 0;
         MyPrivateKey privateKey = new MyPrivateKey(path, passphrase);
+        if(!privateKey.checkPath()){return -1;}
+        if(!privateKey.run()) {return -2;}
+        
         byte[] bytesToSign = new byte[1024];
         byte[] signedBytes = privateKey.signRandomBytes(bytesToSign);
         
-        boolean result = false;
         
         try {
             Signature sig = Signature.getInstance("MD5withRSA");
             sig.initVerify(user.getPublicKey());
             sig.update(bytesToSign);
 
-            result = sig.verify(signedBytes);
+            result = sig.verify(signedBytes)?1:-3;
         } catch(Exception e) {
             e.printStackTrace();
         }

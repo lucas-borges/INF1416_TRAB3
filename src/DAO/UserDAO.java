@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import Model.Certificate;
 import Model.UserModel;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -24,6 +25,7 @@ public class UserDAO {
             ResultSet rs = Factory.connection.createStatement().executeQuery(query);
             if (rs.next()) {
                 result = new UserModel(rs.getString("email"), rs.getString("password"), rs.getString("salt"), 
+                        rs.getInt("ugroup"), rs.getString("name"), new Certificate(rs.getBlob("digital_cert").getBinaryStream()),
                         rs.getInt("password_errors"), rs.getInt("privatekey_validation_errors"), rs.getTimestamp("blocked_until"), rs.getInt("access_number"));
             }
         } catch (Exception e) {

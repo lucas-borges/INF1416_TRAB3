@@ -33,13 +33,14 @@ public class UserModel {
     private String login;
     private String salt;
     private int id_group;
-    private String digital_certificate;
+    private Certificate digital_certificate;
     private Date blocked_until;
     private int password_errors;
     private int private_key_errors;
     private int number_of_access;
     private int number_of_searches_key;
     private int number_of_searches_files;
+    private String name;
     
     public int getPrivate_key_errors() {
         return private_key_errors;
@@ -122,14 +123,14 @@ public class UserModel {
     /**
      * @return the digital_certificate
      */
-    public String getDigital_certificate() {
+    public Certificate getDigital_certificate() {
         return digital_certificate;
     }
 
     /**
      * @param digital_certificate the digital_certificate to set
      */
-    public void setDigital_certificate(String digital_certificate) {
+    public void setDigital_certificate(Certificate digital_certificate) {
         this.digital_certificate = digital_certificate;
     }
 
@@ -216,31 +217,19 @@ public class UserModel {
         return false;
     }
 
-
-    public UserModel(String username, String password, String login, String salt, int id_group, String digital_certificate, Date blocked_until, int number_of_searches_key, int number_of_searches_files, int number_of_access) {
-        super();
-        this.login = login;
-        this.username = username;
-        this.password = password;
-        this.salt = salt;
-        this.id_group = id_group;
-        this.digital_certificate = digital_certificate;
-        this.blocked_until = blocked_until;
-        this.number_of_access = number_of_access;
-        this.number_of_searches_files = number_of_searches_files;
-        this.number_of_searches_key = number_of_searches_key;
-    }
-    
-    public UserModel(String username, String password, String salt, int password_errors, int private_key_errors,  Date blocked_until, int number_of_access) {
+    public UserModel(String username, String password, String salt, int ugroup, String name, Certificate cert, 
+            int password_errors, int private_key_errors,  Date blocked_until, int number_of_access) {
         super();
         this.password = password;
         this.username = username;
         this.password_errors = password_errors;
         this.private_key_errors = private_key_errors;
         this.salt = salt;
-        System.out.println(">>>>>> BlockedUntil: " + blocked_until);
         this.blocked_until = blocked_until;
         this.number_of_access = number_of_access;
+        this.digital_certificate = cert;
+        this.id_group = ugroup;
+        this.name = name;
     }
     
     public void resetPasswordError(){
@@ -262,7 +251,7 @@ public class UserModel {
     }
 
     public PublicKey getPublicKey() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return digital_certificate.getPublicKey();
     }
 
     public void resetPrivateKeyError() {

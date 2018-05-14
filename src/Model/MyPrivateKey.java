@@ -40,13 +40,29 @@ public class MyPrivateKey {
     SecretKey symmetricKey;
     PrivateKey privateKey;
     
+    String path;
+    String passphrase;
+    
     public MyPrivateKey(String path, String passphrase){
+        this.path = path;
+        this.passphrase = passphrase;
+    }
+    
+    public boolean checkPath(){
+        File inputFile = new File(path);
+        return inputFile.exists();
+    }
+    
+    public boolean run() {
         generateSymmetricKey(passphrase);
 
         try {
             byte[] rawPrivateKey =  decryptPrivateKeyFile(path);
 //            rawPrivateKey = toDecodedBase64ByteArray(rawPrivateKey);
             String stringPrivateKey = new String(rawPrivateKey, "UTF-8");
+            if (!checkDecrypted(stringPrivateKey)){
+                return false;
+            }
             stringPrivateKey = stringPrivateKey.replace("-----BEGIN PRIVATE KEY-----", "");  
             stringPrivateKey = stringPrivateKey.replace("-----END PRIVATE KEY-----", ""); 
             byte[] decodedPrivateKey = toDecodedBase64ByteArray(stringPrivateKey.getBytes());
@@ -59,6 +75,7 @@ public class MyPrivateKey {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return true;
     }
     
     public byte[] signRandomBytes(byte[] bytes){
@@ -116,4 +133,8 @@ public class MyPrivateKey {
         return DatatypeConverter.parseBase64Binary(
             new String(base64EncodedByteArray, Charset.forName("UTF-8")));
 }
+
+    private boolean checkDecrypted(String stringPrivateKey) {
+        return stringPrivateKey.contains("-----BEGIN PRIVATE KEY-----") & stringPrivateKey.contains("-----END PRIVATE KEY-----"); 
+    }
 }
