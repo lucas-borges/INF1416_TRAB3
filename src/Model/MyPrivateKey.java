@@ -58,7 +58,6 @@ public class MyPrivateKey {
 
         try {
             byte[] rawPrivateKey =  decryptPrivateKeyFile(path);
-//            rawPrivateKey = toDecodedBase64ByteArray(rawPrivateKey);
             String stringPrivateKey = new String(rawPrivateKey, "UTF-8");
             if (!checkDecrypted(stringPrivateKey)){
                 return false;
@@ -71,9 +70,9 @@ public class MyPrivateKey {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             privateKey = keyFactory.generatePrivate(keySpec);
             
-            System.out.println(privateKey);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }
