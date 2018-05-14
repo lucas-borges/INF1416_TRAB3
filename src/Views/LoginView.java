@@ -7,10 +7,19 @@ package Views;
 
 import Model.EventsModel;
 import Model.UserModel;
+import Model.Password;
 import controller.EventsController;
 import controller.LoginController;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,9 +50,11 @@ public class LoginView {
     public static UserModel user;
     public static List<String> typed_password = new ArrayList<String>();
 
-    public static void main(String[] args) {
-        EventsController.insertNewEvent(EventsModel.SISTEMA_INICIADO, 0);
-        frame = new JFrame("INF1416_TRABALHO_3_1213110");
+    
+    //  ADMIN: admin@inf1416.puc-rio.br / BACADA
+    public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
+        EventsController.insertNewEvent(EventsModel.SISTEMA_INICIADO, -1);
+        frame = new JFrame("INF1416_TRABALHO_3");
         frame.setSize(400, 250);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel1 = new JPanel();

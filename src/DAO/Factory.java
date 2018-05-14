@@ -30,7 +30,7 @@ public class Factory {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/INF1416", "root", "root");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/inf1416?useSSL=false", "root", "root");
             if (connection != null) {
                 System.out.println("You made it, take control your database now!");
             } else {

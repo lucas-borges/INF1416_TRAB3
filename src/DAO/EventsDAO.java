@@ -14,7 +14,12 @@ import Model.EventsModel;
 public class EventsDAO {
     public static void insertEvent(int event_id, int user_id){
         Factory.openConnection();
-        String query = "INSERT INTO events (user_id, event_id) VALUES("+user_id+", "+event_id+");";
+        String query;
+        if (user_id == -1){
+            query = "INSERT INTO registers (message_id) VALUES("+event_id+");";
+        } else {
+            query = "INSERT INTO registers (user, message_id) VALUES("+user_id+", "+event_id+");";
+        }
         EventsModel event;
         try {
             Factory.connection.createStatement().executeUpdate(query);
