@@ -175,8 +175,7 @@ public class MainMenuView extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        super.setVisible(false);
-        RegisterView.start();
+        LoginView.setRegisterView();
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
