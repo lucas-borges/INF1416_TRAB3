@@ -266,9 +266,10 @@ public class MainView {
         }
     }
 
-    public static void backToStepOne() {
+    public static void backToStepOne() { //int id
+        EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_FRASE_SECRETA_INV, user.getUsername());
         user = null;
-        mainFrame.remove(panel3);
+        mainFrame = new JFrame();
         setStepOne();
     }
 
@@ -308,8 +309,6 @@ public class MainView {
             panel3 = new JPanel();
             setStepThree(panel3);
 
-//            mainFrame.setVisible(false);
-//            MenuView.start(user);
         } else {
             int errors = MainController.processIncorrectPassword();
             switch (errors) {
@@ -352,10 +351,31 @@ public class MainView {
     }
 
     static void setRegisterView() {
+        EventsController.insertNewEvent(EventsModel.OPCAO_UM_MENU_PRINCIPAL, user.getUsername());
         mainFrame = new JFrame();
-        register = new RegisterView2();
+        register = new RegisterView();
         mainFrame.add(register, BorderLayout.CENTER);
         mainFrame.setSize(400, 500);
+        mainFrame.validate();
+        mainFrame.setVisible(true);
+    }
+    
+    static void setFilesList(){
+        EventsController.insertNewEvent(EventsModel.TELA_CONSULTA_ARQUIVOS_SECRETOS, user.getUsername());
+        mainFrame = new JFrame();
+        register = new FilesListView();
+        mainFrame.add(register, BorderLayout.CENTER);
+        mainFrame.setSize(600, 500);
+        mainFrame.validate();
+        mainFrame.setVisible(true);
+    }
+    
+    static void setChangePsswrd(){
+        EventsController.insertNewEvent(EventsModel.ALT_TELA_ALTERACAO, user.getUsername());
+        mainFrame = new JFrame();
+        register = new ChangePsswrd();
+        mainFrame.add(register, BorderLayout.CENTER);
+        mainFrame.setSize(600, 500);
         mainFrame.validate();
         mainFrame.setVisible(true);
     }
