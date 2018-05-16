@@ -9,6 +9,6 @@ package controller;
  *
  * @author Joyce - MeConsulte
  */
-public class MainMenu {
+public class Menu {
     
 }

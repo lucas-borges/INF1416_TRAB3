@@ -5,8 +5,8 @@
  */
 package Views;
 
-import static Views.LoginView.password;
-import static Views.LoginView.typed_password;
+import static Views.MainView.password;
+import static Views.MainView.typed_password;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -610,7 +610,7 @@ public class RegisterView extends javax.swing.JPanel {
 
     private void jToggleButton1ActionPerformed(ActionEvent evt) {
         super.setVisible(false);
-        MainMenuView.start(null);
+        MenuView.start(null);
     }
 
     private void jToggleButton2ActionPerformed(ActionEvent evt) {

@@ -8,19 +8,19 @@ package Views;
 import Model.EventsModel;
 import Model.UserModel;
 import controller.EventsController;
-import controller.LoginController;
+import controller.MainController;
 
 /**
  *
  * @author joy
  */
-public class step3 extends javax.swing.JPanel {
+public class KeyView extends javax.swing.JPanel {
 
     private UserModel user;
     /**
      * Creates new form step3
      */
-    public step3(UserModel user) {
+    public KeyView(UserModel user) {
         this.user = user;
         EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_INICIADA, user.getUsername());
         initComponents();
@@ -115,13 +115,13 @@ public class step3 extends javax.swing.JPanel {
     }//GEN-LAST:event_pathFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        LoginView.setMenuView();
-        int verifyResult = LoginController.verifyPrivateKey(pathField.getText(), passphraseField.getText());
+//        MainView.setMenuView();
+        int verifyResult = MainController.verifyPrivateKey(pathField.getText(), passphraseField.getText());
         if(verifyResult == 1){
-            LoginController.processCorrectPrivateKey();
+            MainController.processCorrectPrivateKey();
             EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_OK, user.getUsername());
             EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
-            LoginView.setMenuView();
+            MainView.setMenuView();
         }
         else{
             switch (verifyResult) {
@@ -138,15 +138,15 @@ public class step3 extends javax.swing.JPanel {
                     errorDescLabel.setText("Chave privada invalida");
                     break;
             }
-            int errors = LoginController.processIncorrectPrivateKey();
+            int errors = MainController.processIncorrectPrivateKey();
             
             errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
             passphraseField.setText("");
             if (errors == 3){
                 EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
-                LoginController.blockUserStepThree();
+                MainController.blockUserStepThree();
                 EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
-                LoginView.backToStepOne();
+                MainView.backToStepOne();
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
