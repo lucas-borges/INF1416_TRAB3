@@ -4,11 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/DAO/Factory.java</file>
-            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Views/LoginView.java</file>
-            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Views/MainMenuView.java</file>
+            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Model/EventModel.java</file>
+            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Views/MenuView.java</file>
             <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/DAO/EventsDAO.java</file>
+            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Model/Password.java</file>
+            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Model/Certificate.java</file>
+            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Views/MainView.java</file>
             <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/controller/EventsController.java</file>
             <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/DAO/UserDAO.java</file>
+            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Model/MyPrivateKey.java</file>
+            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Model/UserModel.java</file>
+            <file>file:/D:/Documents/AAaaEu/PUC/seguranca%20informacao/t3/INF1416_TRAB3/src/Views/RegisterView.java</file>
         </group>
     </open-files>
 </project-private>

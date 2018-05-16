@@ -5,7 +5,10 @@
  */
 package DAO;
 
-import Model.EventsModel;
+import Model.EventModel;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,6 +28,26 @@ public class EventsDAO {
     public static void insertEvent(int event_id, String login_name, String file_name){
         String query  = "INSERT INTO REGISTERS (user, message_id, file) VALUES('"+login_name+"', "+event_id+", '"+file_name+"');";
         ExecuteQuery(query);
+    }
+    
+    public static List<EventModel> getEventsList() {
+        Factory.openConnection();
+        String query = "SELECT registers.id, messages.string, registers.user, registers.file, registers.datetime" +
+                        " FROM registers INNER JOIN messages" +
+                        " ON registers.message_id=messages.id;";
+        List<EventModel> result = new ArrayList<EventModel>();
+        try {
+            ResultSet rs = Factory.connection.createStatement().executeQuery(query);
+            while (rs.next()) {
+                result.add(new EventModel(rs.getInt("id"), rs.getString("string"), rs.getString("user"), rs.getString("file"), rs.getTimestamp("datetime")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            Factory.closeConnection();            
+        }
+        return result;
     }
     
     private static void ExecuteQuery(String query){

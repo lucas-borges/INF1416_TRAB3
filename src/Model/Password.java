@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 public class Password {
     private byte[] calculated_hash;
     private String calculated_hash_HEX;
+    private String salt;
 
     public byte[] getCalculated_hash() {
         return calculated_hash;
@@ -27,8 +28,13 @@ public class Password {
     public String getPassword(){
         return calculated_hash_HEX;
     }
+    
+    public String getSalt(){
+        return salt;
+    }
             
     public Password(String key, String salt){
+        this.salt = salt;
         MessageDigest md = null;
         try{
             md = MessageDigest.getInstance("SHA1");

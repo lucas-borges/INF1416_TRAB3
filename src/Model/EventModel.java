@@ -6,63 +6,49 @@
 package Model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
  * @author Joyce - MeConsulte
  */
-public class EventsModel {
+public class EventModel {
+    private Date datetime;
+    private int id;
+    private String user;
+    private String file;
+    private String message;
     
-    public EventsModel(int event_id, int user_id){
-        this.datetime = new Timestamp(System.currentTimeMillis());
-        this.event_id = event_id;
-        this.user_id = user_id;
+    public EventModel(int id, String message, String user, String file, Date datetime){
+        this.datetime = datetime;
+        this.id = id;
+        this.user = user;
+        this.file = file;
+        this.message = message;
+        if(user != null) this.message = this.message.replace("<login_name>", user);
+        if(file != null) this.message = this.message.replace("<arq_name>", file);
     }
 
-    /**
-     * @return the datetime
-     */
-    public Timestamp getDatetime() {
+    public Date getDatetime() {
         return datetime;
     }
 
-    /**
-     * @param datetime the datetime to set
-     */
-    public void setDatetime(Timestamp datetime) {
-        this.datetime = datetime;
+    public int getId() {
+        return id;
     }
 
-    /**
-     * @return the event_id
-     */
-    public int getEvent_id() {
-        return event_id;
+    public String getUser() {
+        return user;
+    }
+    
+    public String getFile() {
+        return file;
+    }
+    
+    public String getMessage() {
+        return message;
     }
 
-    /**
-     * @param event_id the event_id to set
-     */
-    public void setEvent_id(int event_id) {
-        this.event_id = event_id;
-    }
-
-    /**
-     * @return the user_id
-     */
-    public int getUser_id() {
-        return user_id;
-    }
-
-    /**
-     * @param user_id the user_id to set
-     */
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-    private Timestamp datetime;
-    private int event_id;
-    private int user_id;
     
     public static final int SISTEMA_INICIADO = 1001;
     public static final int SISTEMA_ENCERRADO = 1002;

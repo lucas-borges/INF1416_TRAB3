@@ -5,7 +5,7 @@
  */
 package Views;
 
-import Model.EventsModel;
+import Model.EventModel;
 import Model.UserModel;
 import controller.EventsController;
 import controller.MainController;
@@ -22,7 +22,7 @@ public class KeyView extends javax.swing.JPanel {
      */
     public KeyView(UserModel user) {
         this.user = user;
-        EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_INICIADA, user.getUsername());
+        EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_TRES_INICIADA, user.getUsername());
         initComponents();
         errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
         pathField.setText("Keys/admin-pkcs8-pem-des.key");
@@ -119,22 +119,22 @@ public class KeyView extends javax.swing.JPanel {
         int verifyResult = MainController.verifyPrivateKey(pathField.getText(), passphraseField.getText());
         if(verifyResult == 1){
             MainController.processCorrectPrivateKey();
-            EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_OK, user.getUsername());
-            EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
+            EventsController.insertNewEvent(EventModel.CHAVE_PRIV_OK, user.getUsername());
+            EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
             MainView.setMenuView();
         }
         else{
             switch (verifyResult) {
                 case -1:
-                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_CAMINHO_INVALIDO, user.getUsername());
+                    EventsController.insertNewEvent(EventModel.CHAVE_PRIV_CAMINHO_INVALIDO, user.getUsername());
                     errorDescLabel.setText("Caminho invalido");
                     break;
                 case -2:
-                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_FRASE_SECRETA_INV, user.getUsername());
+                    EventsController.insertNewEvent(EventModel.CHAVE_PRIV_FRASE_SECRETA_INV, user.getUsername());
                     errorDescLabel.setText("Frase secreta invalida");
                     break;
                 case -3:
-                    EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
+                    EventsController.insertNewEvent(EventModel.CHAVE_PRIV_DIG_SIG_INV, user.getUsername());
                     errorDescLabel.setText("Chave privada invalida");
                     break;
             }
@@ -143,9 +143,9 @@ public class KeyView extends javax.swing.JPanel {
             errorLabel.setText("Erros: "+ user.getPrivate_key_errors());
             passphraseField.setText("");
             if (errors == 3){
-                EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
+                EventsController.insertNewEvent(EventModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
                 MainController.blockUserStepThree();
-                EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
+                EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_TRES_ENCERRADA, user.getUsername());
                 MainView.backToStepOne();
             }
         }

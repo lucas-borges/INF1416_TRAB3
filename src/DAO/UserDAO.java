@@ -6,6 +6,7 @@
 package DAO;
 
 import Model.Certificate;
+import Model.Password;
 import Model.UserModel;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -116,6 +117,11 @@ public class UserDAO {
 
     public static void setNumberOfAccess(UserModel user, int number_of_access) {
         String query = "UPDATE USERS SET access_number = " + number_of_access + " WHERE email = '" + user.getUsername() + "' ;";
+        ExecuteQuery(query);
+    }
+
+    public static void updatePassword(String username, String password, String salt) {
+        String query = "UPDATE USERS SET password = '"+password+"', salt = '"+salt+"' WHERE email = '" + username + "' ;";
         ExecuteQuery(query);
     }
 }

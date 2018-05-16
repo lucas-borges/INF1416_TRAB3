@@ -5,7 +5,8 @@
  */
 package Views;
 
-import Model.EventsModel;
+import DAO.EventsDAO;
+import Model.EventModel;
 import Model.UserModel;
 import Model.MyPrivateKey;
 import controller.EventsController;
@@ -60,7 +61,7 @@ public class MainView {
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
         new MyPrivateKey("Keys/admin-pkcs8-pem-des.key", "admin");
 
-        EventsController.insertNewEvent(EventsModel.SISTEMA_INICIADO);
+        EventsController.insertNewEvent(EventModel.SISTEMA_INICIADO);
         initComponents();
     }
 
@@ -77,7 +78,7 @@ public class MainView {
     }
 
     private static void exitProcedure() {
-        EventsController.insertNewEvent(EventsModel.SISTEMA_ENCERRADO);
+        EventsController.insertNewEvent(EventModel.SISTEMA_ENCERRADO);
         mainFrame.dispose();
         System.exit(0);
     }
@@ -116,17 +117,17 @@ public class MainView {
     }
 
     private static void nextMouseClicked(ActionEvent e) {
-        EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_UM_INICIADA);
+        EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_UM_INICIADA);
         user = MainController.findUser(username.getText());
         if (user == null) {
-            EventsController.insertNewEvent(EventsModel.LOGIN_NAO_IDENTIFICADO, username.getText());
+            EventsController.insertNewEvent(EventModel.LOGIN_NAO_IDENTIFICADO, username.getText());
             alertInvalidUsername();
         } else if (user.isBlocked()) {
-            EventsController.insertNewEvent(EventsModel.LOGIN_ACESSO_BLOQUEADO, user.getUsername());
+            EventsController.insertNewEvent(EventModel.LOGIN_ACESSO_BLOQUEADO, user.getUsername());
             alertBlockedUser();
         } else {
-            EventsController.insertNewEvent(EventsModel.LOGIN_ACESSO_LIBERADO, user.getUsername());
-            EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_UM_ENCERRADA);
+            EventsController.insertNewEvent(EventModel.LOGIN_ACESSO_LIBERADO, user.getUsername());
+            EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_UM_ENCERRADA);
             mainFrame.remove(panel1);
             setStepTwo();
         }
@@ -155,7 +156,7 @@ public class MainView {
     private static void setStepTwo() {
         
         panel2 = new JPanel();
-        EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_INICIADA, user.getUsername());
+        EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_DOIS_INICIADA, user.getUsername());
         panel2.setLayout(null);
         welcome = new JLabel("Bem Vindo(a)!");
         welcome.setBounds(60, 40, 200, 25);
@@ -269,7 +270,7 @@ public class MainView {
     }
 
     public static void backToStepOne() { //int id
-        EventsController.insertNewEvent(EventsModel.CHAVE_PRIV_FRASE_SECRETA_INV, user.getUsername());
+        EventsController.insertNewEvent(EventModel.CHAVE_PRIV_FRASE_SECRETA_INV, user.getUsername());
         user = null;
         mainFrame = new JFrame();
         setStepOne();
@@ -304,8 +305,8 @@ public class MainView {
     private static void StepTwoVerification() {
         if (MainController.checkPassword(typed_password)) {
             MainController.processCorrectPassword();
-            EventsController.insertNewEvent(EventsModel.SENHA_OK, user.getUsername());
-            EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_ENCERRADA, user.getUsername());
+            EventsController.insertNewEvent(EventModel.SENHA_OK, user.getUsername());
+            EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_DOIS_ENCERRADA, user.getUsername());
 
             mainFrame.remove(panel2);
             panel3 = new JPanel();
@@ -315,22 +316,22 @@ public class MainView {
             int errors = MainController.processIncorrectPassword();
             switch (errors) {
                 case 1:
-                    EventsController.insertNewEvent(EventsModel.PRIMEIRO_ERRO_SENHA, user.getUsername());
+                    EventsController.insertNewEvent(EventModel.PRIMEIRO_ERRO_SENHA, user.getUsername());
                     password_errors_label.setText("Erros: " + user.getPassword_errors());
                     password.setText("");
                     typed_password.clear();
                     break;
                 case 2:
-                    EventsController.insertNewEvent(EventsModel.SEGUNDO_ERRO_SENHA, user.getUsername());
+                    EventsController.insertNewEvent(EventModel.SEGUNDO_ERRO_SENHA, user.getUsername());
                     password_errors_label.setText("Erros: " + user.getPassword_errors());
                     password.setText("");
                     typed_password.clear();
                     break;
                 case 3:
-                    EventsController.insertNewEvent(EventsModel.TERCEIRO_ERRO_SENHA, user.getUsername());
-                    EventsController.insertNewEvent(EventsModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
+                    EventsController.insertNewEvent(EventModel.TERCEIRO_ERRO_SENHA, user.getUsername());
+                    EventsController.insertNewEvent(EventModel.ACESSO_BLOQUEADO_ETAPA_DOIS, user.getUsername());
                     MainController.blockUserStepTwo();
-                    EventsController.insertNewEvent(EventsModel.AUTENTICACAO_ETAPA_DOIS_ENCERRADA, user.getUsername());
+                    EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_DOIS_ENCERRADA, user.getUsername());
                     user = null;
                     mainFrame.remove(panel2);
                     
@@ -353,7 +354,7 @@ public class MainView {
     }
 
     static void setRegisterView() {
-        EventsController.insertNewEvent(EventsModel.OPCAO_UM_MENU_PRINCIPAL, user.getUsername());
+        EventsController.insertNewEvent(EventModel.OPCAO_UM_MENU_PRINCIPAL, user.getUsername());
         mainFrame = new JFrame();
         register = new RegisterView();
         mainFrame.add(register, BorderLayout.CENTER);
@@ -363,7 +364,7 @@ public class MainView {
     }
     
     static void setFilesList(){
-        EventsController.insertNewEvent(EventsModel.TELA_CONSULTA_ARQUIVOS_SECRETOS, user.getUsername());
+        EventsController.insertNewEvent(EventModel.TELA_CONSULTA_ARQUIVOS_SECRETOS, user.getUsername());
         mainFrame = new JFrame();
         register = new FilesListView();
         mainFrame.add(register, BorderLayout.CENTER);
@@ -373,7 +374,7 @@ public class MainView {
     }
     
     static void setChangePsswrd(){
-        EventsController.insertNewEvent(EventsModel.ALT_TELA_ALTERACAO, user.getUsername());
+        EventsController.insertNewEvent(EventModel.ALT_TELA_ALTERACAO, user.getUsername());
         mainFrame = new JFrame();
         register = new ChangePsswrd();
         mainFrame.add(register, BorderLayout.CENTER);

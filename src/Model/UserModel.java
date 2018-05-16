@@ -151,13 +151,6 @@ public class UserModel {
         return false;
     }
 
-//    /**
-//     * @param blocked the blocked to set
-//     */
-//    public void setBlocked(int blocked) {
-//        this.blocked = blocked;
-//    }
-
     /**
      * @return the blocked_since
      */
@@ -165,25 +158,11 @@ public class UserModel {
         return blocked_until;
     }
 
-//    /**
-//     * @param blocked_since the blocked_since to set
-//     */
-//    public void setBlocked_since(String blocked_since) {
-//        this.blocked_since = blocked_since;
-//    }
-
     /**
      * @return the number_of_access
      */
     public int getNumber_of_access() {
         return number_of_access;
-    }
-
-    /**
-     * @param number_of_access the number_of_access to set
-     */
-    public void setNumber_of_access(int number_of_access) {
-        this.number_of_access = number_of_access;
     }
 
     /**
@@ -194,24 +173,10 @@ public class UserModel {
     }
 
     /**
-     * @param number_of_searches_key the number_of_searches_key to set
-     */
-    public void setNumber_of_searches_key(int number_of_searches_key) {
-        this.number_of_searches_key = number_of_searches_key;
-    }
-
-    /**
      * @return the number_of_searches_files
      */
     public int getNumber_of_searches_files() {
         return number_of_searches_files;
-    }
-
-    /**
-     * @param number_of_searches_files the number_of_searches_files to set
-     */
-    public void setNumber_of_searches_files(int number_of_searches_files) {
-        this.number_of_searches_files = number_of_searches_files;
     }
     
     public boolean checkPassword(String possible_password) {
@@ -280,5 +245,11 @@ public class UserModel {
         this.number_of_access += 1;
         UserDAO.setNumberOfAccess(this, number_of_access);
         return this.number_of_access;
+    }
+    
+    public void changePassword(Password password){
+        this.password = password.getPassword();
+        this.salt = password.getSalt();
+        UserDAO.updatePassword(this.username, this.password, this.salt);
     }
 }
