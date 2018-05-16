@@ -38,7 +38,7 @@ public class MenuView extends javax.swing.JFrame {
         group = new javax.swing.JLabel();
         descricao = new javax.swing.JLabel();
         register = new javax.swing.JButton();
-        load_pk = new javax.swing.JButton();
+        change_passwrd = new javax.swing.JButton();
         secret_folder = new javax.swing.JButton();
         exit = new javax.swing.JButton();
         total = new javax.swing.JLabel();
@@ -96,9 +96,9 @@ public class MenuView extends javax.swing.JFrame {
             }
         });
 
-        load_pk.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        load_pk.setText("Carregar chave privada");
-        load_pk.addActionListener(new java.awt.event.ActionListener() {
+        change_passwrd.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        change_passwrd.setText("Alterar senha pessoal e certificado digital");
+        change_passwrd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadKeyActionPerformed(evt);
             }
@@ -108,7 +108,7 @@ public class MenuView extends javax.swing.JFrame {
         secret_folder.setText("Consultar pasta de arquivos secretos");
         secret_folder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                secretFolderActionPerformed(evt);
             }
         });
 
@@ -148,7 +148,7 @@ public class MenuView extends javax.swing.JFrame {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(exit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(secret_folder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(load_pk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(change_passwrd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(register, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                 .addContainerGap())
         );
@@ -161,7 +161,7 @@ public class MenuView extends javax.swing.JFrame {
                                 .addComponent(register)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(load_pk)
+                                        .addComponent(change_passwrd)
                                         .addComponent(total))
                                 .addGap(17, 17, 17)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -180,11 +180,11 @@ public class MenuView extends javax.swing.JFrame {
     }
 
     private void loadKeyActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        MainView.setChangePsswrd();
     }
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void secretFolderActionPerformed(java.awt.event.ActionEvent evt) {
+        MainView.setFilesList();
     }
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,7 +212,7 @@ public class MenuView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton register;
-    private javax.swing.JButton load_pk;
+    private javax.swing.JButton change_passwrd;
     private javax.swing.JButton secret_folder;
     private javax.swing.JButton exit;
     private javax.swing.JLabel total;
