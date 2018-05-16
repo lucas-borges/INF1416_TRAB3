@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Joyce - MeConsulte
  */
-public class LoginController {
+public class MainController {
     private static UserModel user;
     
     public static UserModel findUser(String username){
