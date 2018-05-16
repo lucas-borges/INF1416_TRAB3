@@ -67,11 +67,9 @@ public class LoginView {
     
     //  ADMIN: admin@inf1416.puc-rio.br / BACADA
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
-        Certificate asd = new Certificate("Keys/admin-x509.crt");
-        System.out.println(asd.getEncoded());
-        
-        
-        
+//        Certificate asd = new Certificate("Keys/admin-x509.crt");
+//        System.out.println(asd.getEncoded());
+//        
         EventsController.insertNewEvent(EventsModel.SISTEMA_INICIADO);
         frame = new JFrame("INF1416_TRABALHO_3");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -126,7 +124,7 @@ public class LoginView {
         user = LoginController.findUser(username.getText());
 //        new MainMenuView();
         if (user == null) {
-            EventsController.insertNewEvent(EventsModel.LOGIN_NAO_IDENTIFICADO, user.getUsername());
+            EventsController.insertNewEvent(EventsModel.LOGIN_NAO_IDENTIFICADO, username.getText());
             alertInvalidUsername();
         } else {
             if (user.isBlocked()) {
