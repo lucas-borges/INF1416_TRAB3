@@ -19,6 +19,7 @@ public class MenuView extends javax.swing.JFrame {
      */
     public MenuView(UserModel user) {
         this.user = user;
+        System.out.println(user);
         initComponents();
         login.setText(login.getText() + user.getLogin());
         group.setText(group.getText() + String.valueOf(user.getId_group()));
@@ -98,6 +99,9 @@ public class MenuView extends javax.swing.JFrame {
                 registerActionPerformed(evt);
             }
         });
+        
+        if(this.user.getId_group() == 1)
+            register.setVisible(false);
 
         change_passwrd.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         change_passwrd.setText("Alterar senha pessoal e certificado digital");

@@ -140,6 +140,7 @@ public class MainView {
             EventsController.insertNewEvent(EventModel.LOGIN_ACESSO_LIBERADO, user.getUsername());
             EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_UM_ENCERRADA);
             mainFrame.remove(panel1);
+            user.increaseAccessCount();
             setStepTwo();
         }
     }
