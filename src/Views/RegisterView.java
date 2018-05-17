@@ -8,6 +8,7 @@ package Views;
 import DAO.UserDAO;
 import Model.Certificate;
 import Model.EventModel;
+import Model.Password;
 import Model.UserModel;
 import static Views.MainView.user;
 import controller.EventsController;
@@ -238,49 +239,45 @@ public class RegisterView extends javax.swing.JPanel {
 
         Certificate cert = null;
         byte[] certDigBytes = null;
-        try {
-            cert = new Certificate(certificado.getText());
-            X509Certificate x509cert = cert.getCertificate();
-            if (x509cert == null) {
-                EventsController.insertNewEvent(EventModel.CAD_CAMINHO_CERTIFICADO_INVALIDO, this.user.getUsername());
-                return;
-            }
-            String infoString = x509cert.getVersion() + "\n" + x509cert.getNotBefore() + "\n" + x509cert.getType() + "\n" + x509cert.getIssuerDN() + "\n" + x509cert.getSubjectDN();
-            System.out.println(infoString);
-            String subjectDN = x509cert.getSubjectDN().getName();
-            int start = subjectDN.indexOf("=");
-            int end = subjectDN.indexOf(",");
-            String email = subjectDN.substring(start + 1, end);
-            String nome = subjectDN.substring(start + 1, end);
-            String salt = RegisterController.generateSalt();
-            int grupoid = 0;
-            if (grupo.equals("Administrador")) {
-                grupoid = 0;
-            } else {
-                grupoid = 1;
-            }
-            
-//            TO-DO: CORRIGIR ESSA PARTE
 
-//            if (senha.equals(confirmacao)) {
-//                UserModel newuser = new UserModel(nome, senha, salt, grupoid,"", cert, 0, 0, 0, 0);
-//                if (UserDAO.addUser(newuser)) {
-//                    System.out.println("Usuário cadastrado!");
-//                    MainView.setMenuView();
-//                } else {
-//                    EventsController.insertNewEvent(EventModel.CAD_CONFIRMACAO_DADOS_REJEITADA, this.user.getUsername());
-//                    System.out.println("Não foi possível cadastrar novo usuário.");
-//                }
-//            } else {
-//                EventsController.insertNewEvent(EventModel.CAD_SENHA_INVALIDA, this.user.getUsername());
-//                System.out.println("Senha e confirmação de senha não são iguais.");
-//            }
-
-        } catch (CertificateException ex) {
-            Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
+        cert = new Certificate(certificado.getText());
+        if (!cert.checkPath()) {
+            //TODO caminho invalido
+            EventsController.insertNewEvent(EventModel.CAD_SENHA_INVALIDA, this.user.getUsername());
+            return;
         }
+
+        String email = cert.getEmail();
+        String nome = cert.getSubject();
+
+        int grupoid = 0;
+        if (grupo.equals("Administrador")) {
+            grupoid = 0;
+        } else {
+            grupoid = 1;
+        }
+
+//            TO-DO: CORRIGIR ESSA PARTE
+        if (UserDAO.emailIsRegistered(email)) {
+            // TODO email ja existe
+            System.out.println("Não foi possível cadastrar novo usuário, email já cadastrado.");
+            return;
+        }
+
+        if (senha.equals(confirmacao)) {
+            String salt = Password.generateSalt();
+            Password password = new Password(senha, salt);
+
+            UserModel newuser = new UserModel(email, password.getPassword(), salt, grupoid,nome, cert, 0, 0, null, 0);
+            UserDAO.addUser(newuser);
+            System.out.println("Usuário cadastrado!");
+            MainView.setMenuView();
+        } else {
+            EventsController.insertNewEvent(EventModel.CAD_SENHA_INVALIDA, this.user.getUsername());
+            System.out.println("Senha e confirmação de senha não são iguais.");
+        }
+
+
 
 
     }//GEN-LAST:event_jButton1ActionPerformed

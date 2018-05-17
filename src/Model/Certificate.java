@@ -28,30 +28,34 @@ import sun.security.provider.X509Factory;
  */
 public class Certificate {
     private X509Certificate certificate;
-    public Certificate(String path) throws FileNotFoundException, CertificateException, IOException{
+    private boolean validPath = false;
+    
+    public boolean checkPath() {
+        return validPath;
+    }
+    
+    public Certificate(String path) {
         InputStream inStream = null;
         try {
             inStream = new FileInputStream(path);
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             certificate = (X509Certificate)cf.generateCertificate(inStream);
+            validPath=true;
 //            System.out.println(certificate.getSubjectX500Principal().toString());
-        } finally {
-            if (inStream != null) {
-                inStream.close();
-            }
-        }
+        }catch(Exception e) {
+            e.printStackTrace();
+        } 
     }
         
-    public Certificate(InputStream inStream) throws FileNotFoundException, CertificateException, IOException{
+    public Certificate(InputStream inStream) {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             certificate = (X509Certificate)cf.generateCertificate(inStream);
+            validPath=true;
 //            System.out.println("########" + certificate.getSubjectX500Principal().toString());
-        } finally {
-            if (inStream != null) {
-                inStream.close();
-            }
-        }
+        }catch(Exception e) {
+            e.printStackTrace();
+        } 
     }
     
     public PublicKey getPublicKey(){

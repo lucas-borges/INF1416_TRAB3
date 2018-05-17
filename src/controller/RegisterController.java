@@ -13,13 +13,4 @@ import java.security.SecureRandom;
  */
 public class RegisterController {
 
-    public static String generateSalt() {
-        SecureRandom rand = new SecureRandom();
-        StringBuffer salt = new StringBuffer();
-        for (int i = 0; i < 10; i++) {
-            salt.append(new Integer(rand.nextInt(9)).toString());
-        }
-        return salt.toString();
-    }
-
 }
