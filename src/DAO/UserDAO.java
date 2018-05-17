@@ -47,6 +47,14 @@ public class UserDAO {
         ExecuteQuery(query);
     }
     
+    public static void updateCertificate(UserModel user) {
+        String query = "UPDATE USERS SET PASSWORD = '" + user.getPassword() + "', DIGITAL_CERT = '" + user.getDigital_certificate().getEncoded() + "', "
+                + "SALT = '" + user.getSalt() + "', NAME = '" + user.getName() + "' WHERE EMAIL = '" + user.getUsername() + "'";
+        System.out.println(query);
+        
+        ExecuteQuery(query);
+    }
+    
     public static int getUserCount(){
         Factory.openConnection();
         String query = "SELECT COUNT(*) FROM USERS;";

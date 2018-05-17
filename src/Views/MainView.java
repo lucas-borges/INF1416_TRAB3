@@ -63,6 +63,7 @@ public class MainView {
 
     //  ADMIN: admin@inf1416.puc-rio.br / BACADA
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
+
 //        MyPrivateKey priv = new MyPrivateKey("Keys/user01-pkcs8-pem-des.key", "user01");
 //        priv.run();
 //        Certificate cert = new Certificate("Keys/user01-x509.crt");
@@ -75,7 +76,6 @@ public class MainView {
 //        
 //        EncryptedFile file1 = new EncryptedFile("Files/XXYYZZ11", priv.getPrivateKey(), cert.getPublicKey());
 //        file1.decryptFile();
-        
         
 
         EventsController.insertNewEvent(EventModel.SISTEMA_INICIADO);
@@ -146,6 +146,7 @@ public class MainView {
             EventsController.insertNewEvent(EventModel.LOGIN_ACESSO_LIBERADO, user.getUsername());
             EventsController.insertNewEvent(EventModel.AUTENTICACAO_ETAPA_UM_ENCERRADA);
             mainFrame.remove(panel1);
+            user.increaseAccessCount();
             setStepTwo();
         }
     }
@@ -369,6 +370,7 @@ public class MainView {
         mainFrame.setVisible(false);
         mainFrame = new JFrame();
         MenuView.start(user);
+        EventsController.insertNewEvent(EventModel.TELA_PRINCIPAL_APRESENTADA, user.getUsername());
     }
 
     static void setRegisterView() {
@@ -394,7 +396,7 @@ public class MainView {
     static void setChangePsswrd(){
         EventsController.insertNewEvent(EventModel.ALT_TELA_ALTERACAO, user.getUsername());
         mainFrame = new JFrame();
-        register = new ChangePsswrd();
+        register = new ChangePsswrd(user);
         mainFrame.add(register, BorderLayout.CENTER);
         mainFrame.setSize(600, 500);
         mainFrame.validate();

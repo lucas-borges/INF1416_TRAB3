@@ -37,7 +37,7 @@ public class RegisterView extends javax.swing.JPanel {
     }
 
     private void setLabels(UserModel user) {
-        login.setText(user.getLogin());
+        login.setText(user.getUsername());
         group.setText(String.valueOf(user.getId_group()));
         name.setText(user.getName());
         groups.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Usuario", "Administrador"}));
@@ -233,8 +233,8 @@ public class RegisterView extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String senha = new String(confirmpassword.getText());
-        String confirmacao = new String(password.getText());
+        String confirmacao = new String(confirmpassword.getText());
+        String senha = new String(password.getText());
         String grupo = (String) groups.getSelectedItem().toString().toLowerCase();
 
         Certificate cert = null;
