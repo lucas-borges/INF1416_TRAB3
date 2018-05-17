@@ -60,7 +60,7 @@ public class MainController {
        user.blockStepTwo();
     }
     
-    public static int verifyPrivateKey(String path, String passphrase) {
+    public static int verifyPrivateKey(UserModel user, String path, String passphrase) {
         int result = 0;
         MyPrivateKey privateKey = new MyPrivateKey(path, passphrase);
         if(!privateKey.checkPath()){return -1;}
@@ -69,13 +69,17 @@ public class MainController {
         byte[] bytesToSign = new byte[1024];
         byte[] signedBytes = privateKey.signRandomBytes(bytesToSign);
         
-        
         try {
             Signature sig = Signature.getInstance("MD5withRSA");
             sig.initVerify(user.getPublicKey());
             sig.update(bytesToSign);
 
-            result = sig.verify(signedBytes)?1:-3;
+            if(sig.verify(signedBytes)){
+                user.setPrivateKey(privateKey.getPrivateKey());
+                result = 1;
+            }else{
+                result = -3;
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }

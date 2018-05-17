@@ -5,8 +5,11 @@
  */
 package Views;
 
+import Model.EventModel;
 import Model.UserModel;
-import static Views.MainView.mainFrame;
+import controller.EventsController;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -19,6 +22,13 @@ public class MenuView extends javax.swing.JFrame {
      */
     public MenuView(UserModel user) {
         this.user = user;
+        super.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                CloseFrame();
+            }
+        });
+        
         initComponents();
         login.setText(login.getText() + user.getLogin());
         group.setText(group.getText() + String.valueOf(user.getId_group()));
@@ -176,7 +186,7 @@ public class MenuView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                        
-
+    
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {
         MainView.setRegisterView();
@@ -195,6 +205,7 @@ public class MenuView extends javax.swing.JFrame {
     }
 
     public void CloseFrame() {
+        EventsController.insertNewEvent(EventModel.SISTEMA_ENCERRADO);
         super.dispose();
     }
 

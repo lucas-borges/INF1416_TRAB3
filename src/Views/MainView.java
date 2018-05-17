@@ -7,8 +7,10 @@ package Views;
 
 import DAO.EventsDAO;
 import Model.Certificate;
+import Model.EncryptedFile;
 import Model.EventModel;
 import Model.IndexFile;
+import Model.IndexItem;
 import Model.UserModel;
 import Model.MyPrivateKey;
 import controller.EventsController;
@@ -61,15 +63,19 @@ public class MainView {
 
     //  ADMIN: admin@inf1416.puc-rio.br / BACADA
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
-//        MyPrivateKey priv = new MyPrivateKey("Keys/admin-pkcs8-pem-des.key", "admin");
+//        MyPrivateKey priv = new MyPrivateKey("Keys/user01-pkcs8-pem-des.key", "user01");
 //        priv.run();
-//        Certificate cert = new Certificate("Keys/admin-x509.crt");
-//        IndexFile index = new IndexFile("Files", priv.getPrivateKey(), cert.getPublicKey());
+//        Certificate cert = new Certificate("Keys/user01-x509.crt");
+//        IndexFile index = new IndexFile("Files/index", priv.getPrivateKey(), cert.getPublicKey());
 //        System.out.println(index.checkPath());
-//        index.openEnvelope();
-//        index.decryptIndex();
-//        System.out.println(index.verifyIndex());
+//        index.decryptFile();
+//        System.out.println(index.verifyFile());
 //        index.parseIndexContents();
+//        List<IndexItem> af = index.getIndexItems();
+//        
+//        EncryptedFile file1 = new EncryptedFile("Files/XXYYZZ11", priv.getPrivateKey(), cert.getPublicKey());
+//        file1.decryptFile();
+        
         
 
         EventsController.insertNewEvent(EventModel.SISTEMA_INICIADO);
@@ -378,7 +384,7 @@ public class MainView {
     static void setFilesList(){
         EventsController.insertNewEvent(EventModel.TELA_CONSULTA_ARQUIVOS_SECRETOS, user.getUsername());
         mainFrame = new JFrame();
-        register = new FilesListView();
+        register = new FilesListView(user);
         mainFrame.add(register, BorderLayout.CENTER);
         mainFrame.setSize(600, 500);
         mainFrame.validate();

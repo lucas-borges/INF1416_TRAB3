@@ -32,11 +32,11 @@ public class IndexItem {
     }
     
     public IndexItem(String raw_line) { 
+        System.out.println(raw_line);
         String[] parts = raw_line.split(" ");
         code_name = parts[0];
         secret_name = parts[1];
         owner = parts[2];
         owner_group = parts[3];
-        System.out.println(raw_line);
     }
 }

@@ -6,6 +6,7 @@
 package Model;
 
 import DAO.UserDAO;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Date;
 
@@ -41,6 +42,7 @@ public class UserModel {
     private int number_of_searches_key;
     private int number_of_searches_files;
     private String name;
+    private PrivateKey privateKey;
     
     public int getPrivate_key_errors() {
         return private_key_errors;
@@ -251,5 +253,13 @@ public class UserModel {
         this.password = password.getPassword();
         this.salt = password.getSalt();
         UserDAO.updatePassword(this.username, this.password, this.salt);
+    }
+
+    public PrivateKey getPrivateKey() { 
+        return this.privateKey;
+    }
+    
+    public void setPrivateKey(PrivateKey privateKey) { 
+        this.privateKey = privateKey;
     }
 }

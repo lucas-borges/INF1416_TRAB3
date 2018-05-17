@@ -116,7 +116,7 @@ public class KeyView extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 //        MainView.setMenuView();
-        int verifyResult = MainController.verifyPrivateKey(pathField.getText(), passphraseField.getText());
+        int verifyResult = MainController.verifyPrivateKey(user, pathField.getText(), passphraseField.getText());
         if(verifyResult == 1){
             MainController.processCorrectPrivateKey();
             EventsController.insertNewEvent(EventModel.CHAVE_PRIV_OK, user.getUsername());

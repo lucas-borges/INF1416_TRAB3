@@ -5,17 +5,38 @@
  */
 package Views;
 
+import Model.EventModel;
+import Model.IndexFile;
+import Model.IndexItem;
+import Model.UserModel;
+import controller.EventsController;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author joy
  */
 public class FilesListView extends javax.swing.JPanel {
-
+    private UserModel user;
+    DefaultTableModel indexTableModel;
     /**
      * Creates new form ListFiles
      */
-    public FilesListView() {
+    public FilesListView(UserModel user) {
+        this.user = user;
+        indexTableModel = new DefaultTableModel(); 
+        indexTableModel.addColumn("Nome codigo");
+        indexTableModel.addColumn("Nome secreto");
+        indexTableModel.addColumn("Dono");
+        indexTableModel.addColumn("Grupo");
+        
         initComponents();
+        groupLabel.setText(Integer.toString(user.getId_group()));
+        loginLabel.setText(user.getUsername());
+        nomeLabel.setText(user.getName());
+        
     }
 
     /**
@@ -32,15 +53,14 @@ public class FilesListView extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        folderPathTextField = new javax.swing.JTextField();
+        loginLabel = new javax.swing.JLabel();
+        groupLabel = new javax.swing.JLabel();
+        nomeLabel = new javax.swing.JLabel();
+        ListarButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        indexTable = new javax.swing.JTable();
         jToggleButton1 = new javax.swing.JToggleButton();
 
         jPanel1.setEnabled(false);
@@ -50,40 +70,33 @@ public class FilesListView extends javax.swing.JPanel {
 
         jLabel2.setText("Grupo");
 
-        jLabel3.setText("Descriçao");
+        jLabel3.setText("Nome");
 
-        jLabel4.setText("Total de Usuarios");
+        jLabel4.setText("Total consultas");
 
-        jLabel5.setText("Formulario de Cadastro");
+        jLabel6.setText("Caminho Pasta");
 
-        jLabel6.setText("Certificado");
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        folderPathTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                folderPathTextFieldActionPerformed(evt);
             }
         });
 
-        jLabel10.setText("login string");
+        loginLabel.setText("login string");
 
-        jLabel11.setText("grupo string");
+        groupLabel.setText("grupo string");
 
-        jLabel12.setText("descricao string");
+        nomeLabel.setText("descricao string");
 
-        jButton3.setText("Listar");
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        ListarButton.setText("Listar");
+        ListarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListarButtonActionPerformed(evt);
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        });
+
+        indexTable.setModel(indexTableModel);
+        jScrollPane2.setViewportView(indexTable);
 
         jToggleButton1.setText("Voltar");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -99,38 +112,31 @@ public class FilesListView extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addGap(82, 82, 82))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(40, 40, 40)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButton3)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                    .addComponent(folderPathTextField)
+                                    .addComponent(ListarButton)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3))
-                                        .addGap(41, 41, 41)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jLabel11)
-                                            .addComponent(jLabel10))))
-                                .addGap(0, 290, Short.MAX_VALUE)))
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(41, 41, 41)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nomeLabel)
+                                    .addComponent(groupLabel)
+                                    .addComponent(loginLabel))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jToggleButton1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToggleButton1)
+                            .addComponent(jLabel4))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -139,25 +145,23 @@ public class FilesListView extends javax.swing.JPanel {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel10))
+                    .addComponent(loginLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel11))
+                    .addComponent(groupLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel12))
+                    .addComponent(nomeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(folderPathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(ListarButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -172,7 +176,7 @@ public class FilesListView extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,30 +186,60 @@ public class FilesListView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    private void ListarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarButtonActionPerformed
+        String indexPath = folderPathTextField.getText()+"/index";
+        System.out.println("index path: "+indexPath);
+        IndexFile index = new IndexFile(indexPath, user.getPrivateKey(), user.getPublicKey());
+        if(!index.checkPath()){
+            EventsController.insertNewEvent(EventModel.CAMINHO_PASTA_INVALIDO, user.getUsername());
+            return;
+        }
+        if(index.decryptFile()){
+            EventsController.insertNewEvent(EventModel.ARQUIVO_DECRIPTADO, user.getUsername(), indexPath);  
+        }else{
+            EventsController.insertNewEvent(EventModel.FALHA_DECRIPTACAO, user.getUsername(), indexPath);  
+            return;
+        }
+        
+        if(index.verifyFile()){
+            EventsController.insertNewEvent(EventModel.ARQUIVO_VERIFICADO, user.getUsername(), indexPath);  
+        }else{
+            EventsController.insertNewEvent(EventModel.FALHA_VERIFICACAO, user.getUsername(), indexPath);  
+            return;
+        }
+        index.parseIndexContents();
+        List<IndexItem> filesList = index.getIndexItems();
+        
+        for(IndexItem item: filesList) {
+            indexTableModel.addRow(new Object[]{item.getCode_name(), item.getSecret_name(), item.getOwner(), item.getOwner_group()});
+        }
+         
+        jPanel1.repaint();        
+    }//GEN-LAST:event_ListarButtonActionPerformed
+
+    private void folderPathTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_folderPathTextFieldActionPerformed
+            // TODO add your handling code here:
+    }//GEN-LAST:event_folderPathTextFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton ListarButton;
+    private javax.swing.JTextField folderPathTextField;
+    private javax.swing.JLabel groupLabel;
+    private javax.swing.JTable indexTable;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JLabel loginLabel;
+    private javax.swing.JLabel nomeLabel;
     // End of variables declaration//GEN-END:variables
 }
