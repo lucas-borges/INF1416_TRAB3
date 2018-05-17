@@ -216,7 +216,7 @@ public class ChangePsswrd extends javax.swing.JPanel {
         cert = new Certificate(certificado.getText());
         if (!cert.checkPath()) {
             //TODO caminho invalido
-            EventsController.insertNewEvent(EventModel.CAD_SENHA_INVALIDA, this.user.getUsername());
+            EventsController.insertNewEvent(EventModel.ALT_CAMINHO_CERTIFICADO_INVALIDAO, this.user.getUsername());
             return;
         }
         String email = cert.getEmail();
@@ -238,7 +238,7 @@ public class ChangePsswrd extends javax.swing.JPanel {
             System.out.println("Usuário alterado!");
             MainView.setMenuView();
         } else {
-            EventsController.insertNewEvent(EventModel.CAD_SENHA_INVALIDA, this.user.getUsername());
+            EventsController.insertNewEvent(EventModel.ALT_SENHA_PESSOAL_INVALIDA, this.user.getUsername());
             System.out.println("Senha e confirmação de senha não são iguais.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed

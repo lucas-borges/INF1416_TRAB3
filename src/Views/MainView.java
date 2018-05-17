@@ -61,17 +61,6 @@ public class MainView {
 
     //  ADMIN: admin@inf1416.puc-rio.br / BACADA
     public static void main(String[] args) throws FileNotFoundException, CertificateException, IOException, NoSuchAlgorithmException {
-//        MyPrivateKey priv = new MyPrivateKey("Keys/admin-pkcs8-pem-des.key", "admin");
-//        priv.run();
-//        Certificate cert = new Certificate("Keys/admin-x509.crt");
-//        IndexFile index = new IndexFile("Files", priv.getPrivateKey(), cert.getPublicKey());
-//        System.out.println(index.checkPath());
-//        index.openEnvelope();
-//        index.decryptIndex();
-//        System.out.println(index.verifyIndex());
-//        index.parseIndexContents();
-        
-
         EventsController.insertNewEvent(EventModel.SISTEMA_INICIADO);
         initComponents();
     }
@@ -364,6 +353,7 @@ public class MainView {
         mainFrame.setVisible(false);
         mainFrame = new JFrame();
         MenuView.start(user);
+        EventsController.insertNewEvent(EventModel.TELA_PRINCIPAL_APRESENTADA, user.getUsername());
     }
 
     static void setRegisterView() {
