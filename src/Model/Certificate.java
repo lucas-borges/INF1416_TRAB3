@@ -27,7 +27,7 @@ import sun.security.provider.X509Factory;
  * @author Lucas
  */
 public class Certificate {
-    X509Certificate certificate;
+    private X509Certificate certificate;
     public Certificate(String path) throws FileNotFoundException, CertificateException, IOException{
         InputStream inStream = null;
         try {
@@ -55,31 +55,31 @@ public class Certificate {
     }
     
     public PublicKey getPublicKey(){
-        return certificate.getPublicKey();
+        return getCertificate().getPublicKey();
     }
     
     public int getVersion(){
-        return certificate.getVersion();
+        return getCertificate().getVersion();
     }
     
     public BigInteger getSerialNumber(){
-        return certificate.getSerialNumber();
+        return getCertificate().getSerialNumber();
     }
     
     public Date getValidFrom(){
-       return certificate.getNotBefore();
+       return getCertificate().getNotBefore();
     }
     
     public Date getValidTo(){
-       return certificate.getNotAfter();
+       return getCertificate().getNotAfter();
     }
     
     public String getSignAlgName(){
-        return certificate.getSigAlgName();
+        return getCertificate().getSigAlgName();
     }
     
     public String getIssuer(){
-        String issuer = certificate.getIssuerDN().getName();
+        String issuer = getCertificate().getIssuerDN().getName();
         String[] split = issuer.split(","); 
         for (String x : split) {
             if (x.contains("CN=")) {
@@ -90,7 +90,7 @@ public class Certificate {
     }
     
     public String getSubject(){
-        String subject = certificate.getSubjectDN().getName();
+        String subject = getCertificate().getSubjectDN().getName();
         String[] split = subject.split(","); 
         for (String x : split) {
             if (x.contains("CN=")) {
@@ -101,7 +101,7 @@ public class Certificate {
     }
         
     public String getEmail() {
-        String subject = certificate.getSubjectDN().getName();
+        String subject = getCertificate().getSubjectDN().getName();
         String[] split = subject.split(","); 
         for (String x : split) {
             if (x.contains("EMAILADDRESS=")) {
@@ -118,7 +118,7 @@ public class Certificate {
             BASE64Encoder encoder = new BASE64Encoder();
             os.write(X509Factory.BEGIN_CERT.getBytes());
             os.write("\n".getBytes());
-            encoder.encodeBuffer(certificate.getEncoded(), os);
+            encoder.encodeBuffer(getCertificate().getEncoded(), os);
             os.write(X509Factory.END_CERT.getBytes());
             encoded = os.toString();
             os.close();
@@ -126,5 +126,12 @@ public class Certificate {
             e.printStackTrace();
         }
         return encoded;
+    }
+
+    /**
+     * @return the certificate
+     */
+    public X509Certificate getCertificate() {
+        return certificate;
     }
 }

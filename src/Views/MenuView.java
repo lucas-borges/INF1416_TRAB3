@@ -20,6 +20,9 @@ public class MenuView extends javax.swing.JFrame {
     public MenuView(UserModel user) {
         this.user = user;
         initComponents();
+        login.setText(login.getText() + user.getLogin());
+        group.setText(group.getText() + String.valueOf(user.getId_group()));
+        name.setText(name.getText() + user.getName());
     }
 
     /**
@@ -36,7 +39,7 @@ public class MenuView extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         login = new javax.swing.JLabel();
         group = new javax.swing.JLabel();
-        descricao = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
         register = new javax.swing.JButton();
         change_passwrd = new javax.swing.JButton();
         secret_folder = new javax.swing.JButton();
@@ -62,7 +65,7 @@ public class MenuView extends javax.swing.JFrame {
 
         group.setText("Grupo: ");
 
-        descricao.setText("Descrição:");
+        name.setText("Nome:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -73,7 +76,7 @@ public class MenuView extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(login)
                                         .addComponent(group)
-                                        .addComponent(descricao))
+                                        .addComponent(name))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -84,7 +87,7 @@ public class MenuView extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(group)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                                .addComponent(descricao)
+                                .addComponent(name)
                                 .addContainerGap())
         );
 
@@ -124,7 +127,6 @@ public class MenuView extends javax.swing.JFrame {
         total.setText("Total de Acessos");
 
         num_acess.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        System.out.println(user.getUsername());
         num_acess.setText(String.valueOf(user.getNumber_of_access()));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -219,7 +221,7 @@ public class MenuView extends javax.swing.JFrame {
     private javax.swing.JLabel total;
     private javax.swing.JLabel login;
     private javax.swing.JLabel group;
-    private javax.swing.JLabel descricao;
+    private javax.swing.JLabel name;
     private javax.swing.JLabel num_acess;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
