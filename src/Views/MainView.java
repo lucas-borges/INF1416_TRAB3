@@ -389,7 +389,7 @@ public class MainView {
     static void setChangePsswrd(){
         EventsController.insertNewEvent(EventModel.ALT_TELA_ALTERACAO, user.getUsername());
         mainFrame = new JFrame();
-        register = new ChangePsswrd();
+        register = new ChangePsswrd(user);
         mainFrame.add(register, BorderLayout.CENTER);
         mainFrame.setSize(600, 500);
         mainFrame.validate();

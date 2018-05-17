@@ -21,9 +21,6 @@ public class MenuView extends javax.swing.JFrame {
         this.user = user;
         System.out.println(user);
         initComponents();
-        login.setText(login.getText() + user.getLogin());
-        group.setText(group.getText() + String.valueOf(user.getId_group()));
-        name.setText(name.getText() + user.getName());
     }
 
     /**
@@ -64,9 +61,9 @@ public class MenuView extends javax.swing.JFrame {
 
         login.setText("Login: " + user.getUsername());
 
-        group.setText("Grupo: ");
+        group.setText("Grupo: " + String.valueOf(user.getId_group()));
 
-        name.setText("Nome:");
+        name.setText("Nome:" + user.getName());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -107,7 +104,7 @@ public class MenuView extends javax.swing.JFrame {
         change_passwrd.setText("Alterar senha pessoal e certificado digital");
         change_passwrd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadKeyActionPerformed(evt);
+                changepsswrdActionPerformed(evt);
             }
         });
 
@@ -186,7 +183,7 @@ public class MenuView extends javax.swing.JFrame {
         MainView.setRegisterView();
     }
 
-    private void loadKeyActionPerformed(java.awt.event.ActionEvent evt) {
+    private void changepsswrdActionPerformed(java.awt.event.ActionEvent evt) {
         MainView.setChangePsswrd();
     }
 

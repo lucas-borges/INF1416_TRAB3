@@ -37,7 +37,9 @@ public class Certificate {
     public Certificate(String path) {
         InputStream inStream = null;
         try {
+            System.out.println(path);
             inStream = new FileInputStream(path);
+            System.out.println(path);
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             certificate = (X509Certificate)cf.generateCertificate(inStream);
             validPath=true;
