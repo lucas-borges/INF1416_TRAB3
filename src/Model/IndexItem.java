@@ -37,5 +37,6 @@ public class IndexItem {
         secret_name = parts[1];
         owner = parts[2];
         owner_group = parts[3];
+        System.out.println(raw_line);
     }
 }

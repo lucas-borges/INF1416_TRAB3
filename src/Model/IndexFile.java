@@ -50,20 +50,21 @@ public class IndexFile {
     
     public void openEnvelope(){
         try{
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, privateKey);
-
+//            Cipher cipher = Cipher.getInstance("RSA");
+//            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+//
             File inputFile = new File(path+"/index.env");
             FileInputStream inputStream = new FileInputStream(inputFile);
             byte[] inputBytes = new byte[(int) inputFile.length()];
             inputStream.read(inputBytes);
             inputStream.close();
-
-            seed = cipher.doFinal(inputBytes);
+//
+//            seed = cipher.doFinal(inputBytes);
+               
 
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
             KeyGenerator keygen = KeyGenerator.getInstance("DES");
-            random.setSeed(seed);
+            random.setSeed(inputBytes);
             keygen.init(random);
             symmetricKey = keygen.generateKey();
         } catch (Exception e) {
@@ -81,7 +82,8 @@ public class IndexFile {
             byte[] inputBytes = new byte[(int) inputFile.length()];
             inputStream.read(inputBytes);
             inputStream.close();
-
+            
+            System.out.println(">>>" + inputBytes.toString());
             indexContents = cipher.doFinal(inputBytes);
 
             System.out.println(indexContents.toString());
