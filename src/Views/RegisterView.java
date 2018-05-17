@@ -5,6 +5,21 @@
  */
 package Views;
 
+import DAO.UserDAO;
+import Model.Certificate;
+import Model.EventModel;
+import Model.UserModel;
+import static Views.MainView.user;
+import controller.EventsController;
+import controller.RegisterController;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author joy
@@ -14,8 +29,17 @@ public class RegisterView extends javax.swing.JPanel {
     /**
      * Creates new form RegisterView2
      */
-    public RegisterView() {
+    public RegisterView(UserModel user) {
         initComponents();
+        setLabels(user);
+        this.user = user;
+    }
+
+    private void setLabels(UserModel user) {
+        login.setText(user.getLogin());
+        group.setText(String.valueOf(user.getId_group()));
+        name.setText(user.getName());
+        groups.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Usuario", "Administrador"}));
     }
 
     /**
@@ -33,18 +57,18 @@ public class RegisterView extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        certificado = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        password = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        confirmpassword = new javax.swing.JTextField();
+        login = new javax.swing.JLabel();
+        group = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        groups = new javax.swing.JComboBox<>();
 
         setEnabled(false);
 
@@ -52,7 +76,7 @@ public class RegisterView extends javax.swing.JPanel {
 
         jLabel2.setText("Grupo");
 
-        jLabel3.setText("Descriçao");
+        jLabel3.setText("Nome");
 
         jLabel4.setText("Total de Usuarios");
 
@@ -60,41 +84,29 @@ public class RegisterView extends javax.swing.JPanel {
 
         jLabel6.setText("Certificado");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        certificado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                certificadoActionPerformed(evt);
             }
         });
 
         jLabel7.setText("Grupo");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
         jLabel8.setText("Senha");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                passwordActionPerformed(evt);
             }
         });
 
         jLabel9.setText("Confirmaçao");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        confirmpassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                confirmpasswordActionPerformed(evt);
             }
         });
-
-        jLabel10.setText("login string");
-
-        jLabel11.setText("grupo string");
-
-        jLabel12.setText("descricao string");
 
         jButton1.setText("Ok");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -107,6 +119,13 @@ public class RegisterView extends javax.swing.JPanel {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        groups.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        groups.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupsActionPerformed(evt);
             }
         });
 
@@ -127,10 +146,10 @@ public class RegisterView extends javax.swing.JPanel {
                                     .addComponent(jLabel9))
                                 .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField4)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField2)))
+                                    .addComponent(confirmpassword)
+                                    .addComponent(password)
+                                    .addComponent(certificado)
+                                    .addComponent(groups, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
@@ -141,10 +160,10 @@ public class RegisterView extends javax.swing.JPanel {
                                             .addComponent(jLabel3))
                                         .addGap(41, 41, 41)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jLabel11)
-                                            .addComponent(jLabel10))))
-                                .addGap(0, 231, Short.MAX_VALUE)))
+                                            .addComponent(name)
+                                            .addComponent(group)
+                                            .addComponent(login))))
+                                .addGap(0, 285, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -162,15 +181,15 @@ public class RegisterView extends javax.swing.JPanel {
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel10))
+                    .addComponent(login))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel11))
+                    .addComponent(group))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel12))
+                    .addComponent(name))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
@@ -178,19 +197,19 @@ public class RegisterView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(certificado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(groups, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(confirmpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -199,38 +218,90 @@ public class RegisterView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_passwordActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void confirmpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmpasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_confirmpasswordActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void certificadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_certificadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_certificadoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String senha = new String(confirmpassword.getText());
+        String confirmacao = new String(password.getText());
+        String grupo = (String) groups.getSelectedItem().toString().toLowerCase();
+
+        Certificate cert = null;
+        byte[] certDigBytes = null;
+        try {
+            cert = new Certificate(certificado.getText());
+            X509Certificate x509cert = cert.getCertificate();
+            if (x509cert == null) {
+                EventsController.insertNewEvent(EventModel.CAD_CAMINHO_CERTIFICADO_INVALIDO, this.user.getUsername());
+                return;
+            }
+            String infoString = x509cert.getVersion() + "\n" + x509cert.getNotBefore() + "\n" + x509cert.getType() + "\n" + x509cert.getIssuerDN() + "\n" + x509cert.getSubjectDN();
+            System.out.println(infoString);
+            String subjectDN = x509cert.getSubjectDN().getName();
+            int start = subjectDN.indexOf("=");
+            int end = subjectDN.indexOf(",");
+            String email = subjectDN.substring(start + 1, end);
+            String nome = subjectDN.substring(start + 1, end);
+            String salt = RegisterController.generateSalt();
+            int grupoid = 0;
+            if (grupo.equals("Administrador")) {
+                grupoid = 0;
+            } else {
+                grupoid = 1;
+            }
+            
+//            TO-DO: CORRIGIR ESSA PARTE
+
+//            if (senha.equals(confirmacao)) {
+//                UserModel newuser = new UserModel(nome, senha, salt, grupoid,"", cert, 0, 0, 0, 0);
+//                if (UserDAO.addUser(newuser)) {
+//                    System.out.println("Usuário cadastrado!");
+//                    MainView.setMenuView();
+//                } else {
+//                    EventsController.insertNewEvent(EventModel.CAD_CONFIRMACAO_DADOS_REJEITADA, this.user.getUsername());
+//                    System.out.println("Não foi possível cadastrar novo usuário.");
+//                }
+//            } else {
+//                EventsController.insertNewEvent(EventModel.CAD_SENHA_INVALIDA, this.user.getUsername());
+//                System.out.println("Senha e confirmação de senha não são iguais.");
+//            }
+
+        } catch (CertificateException ex) {
+            Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void groupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_groupsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField certificado;
+    private javax.swing.JTextField confirmpassword;
+    private javax.swing.JLabel group;
+    private javax.swing.JComboBox<String> groups;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -239,9 +310,9 @@ public class RegisterView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel login;
+    private javax.swing.JLabel name;
+    private javax.swing.JTextField password;
     // End of variables declaration//GEN-END:variables
+    private UserModel user;
 }

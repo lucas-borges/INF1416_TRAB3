@@ -361,13 +361,14 @@ public class MainView {
 
     public static void setMenuView() {
         mainFrame.setVisible(false);
+        mainFrame = new JFrame();
         MenuView.start(user);
     }
 
     static void setRegisterView() {
         EventsController.insertNewEvent(EventModel.OPCAO_UM_MENU_PRINCIPAL, user.getUsername());
         mainFrame = new JFrame();
-        register = new RegisterView();
+        register = new RegisterView(user);
         mainFrame.add(register, BorderLayout.CENTER);
         mainFrame.setSize(400, 500);
         mainFrame.validate();
