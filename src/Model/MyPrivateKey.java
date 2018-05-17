@@ -48,9 +48,13 @@ public class MyPrivateKey {
         this.passphrase = passphrase;
     }
     
+    public PrivateKey getPrivateKey() {
+        return this.privateKey;
+    }
+    
     public boolean checkPath(){
         File inputFile = new File(path);
-        return inputFile.exists();
+        return inputFile.isFile();
     }
     
     public boolean run() {
